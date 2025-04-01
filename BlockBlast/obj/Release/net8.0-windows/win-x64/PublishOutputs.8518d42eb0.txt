@@ -1,0 +1,7 @@
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\BlockBlast.pdb
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\D3DCompiler_47_cor3.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\PenImc_cor3.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\PresentationNative_cor3.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\vcruntime140_cor3.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\wpfgfx_cor3.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\publish\BlockBlast.exe

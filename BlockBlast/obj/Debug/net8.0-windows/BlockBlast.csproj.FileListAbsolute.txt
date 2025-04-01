@@ -1,0 +1,14 @@
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\bin\Debug\net8.0-windows\BlockBlast.exe
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\bin\Debug\net8.0-windows\BlockBlast.deps.json
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\bin\Debug\net8.0-windows\BlockBlast.runtimeconfig.json
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\bin\Debug\net8.0-windows\BlockBlast.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\bin\Debug\net8.0-windows\BlockBlast.pdb
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.AssemblyInfoInputs.cache
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.AssemblyInfo.cs
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.csproj.CoreCompileInputs.cache
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\refint\BlockBlast.dll
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.pdb
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\BlockBlast.genruntimeconfig.cache
+C:\Users\Alexe\RiderProjects\BlockBlast\BlockBlast\obj\Debug\net8.0-windows\ref\BlockBlast.dll
