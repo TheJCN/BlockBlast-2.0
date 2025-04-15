@@ -15,7 +15,10 @@ public class GameController
         _currentPlayer = 1;
     }
 
-    public Player GetCurrentPlayer() => _currentPlayer == 1 ? Player1 : Player2;
+    public Player GetCurrentPlayer()
+    {
+        return _currentPlayer == 1 ? Player1 : Player2;
+    }
 
     public void SwitchPlayer()
     {
@@ -41,7 +44,7 @@ public class GameController
             if (cells[x, y].BackColor != Color.White)
                 return false;
         }
-
+            
         foreach (var pix in figure.Pixels)
         {
             var x = baseRow + pix.X;
@@ -54,8 +57,8 @@ public class GameController
 
     public int CheckAndClearLines(Panel[,] cells, int gridSize)
     {
-        var score = 0;
-
+        var linesCleared = 0;
+            
         for (var i = 0; i < gridSize; i++)
         {
             var isRowFull = true;
@@ -69,17 +72,17 @@ public class GameController
 
             if (isRowFull)
             {
-                score += 100;
+                linesCleared++;
                 ClearLine(i, 0, 0, 1, cells, gridSize);
             }
 
             if (isColFull)
             {
-                score += 100;
+                linesCleared++;
                 ClearLine(0, i, 1, 0, cells, gridSize);
             }
         }
-
+            
         var isDiagonal1Full = true;
         var isDiagonal2Full = true;
 
@@ -91,16 +94,17 @@ public class GameController
 
         if (isDiagonal1Full)
         {
-            score += 100;
+            linesCleared++;
             ClearLine(0, 0, 1, 1, cells, gridSize);
         }
 
         if (isDiagonal2Full)
         {
-            score += 100;
+            linesCleared++;
             ClearLine(0, gridSize - 1, 1, -1, cells, gridSize);
         }
-
+            
+        var score = linesCleared * 100;
         return score;
     }
 
@@ -114,11 +118,40 @@ public class GameController
         }
     }
 
-    public bool AreAllFiguresPlaced() => Player1.Figures.Count == 0 && Player2.Figures.Count == 0;
+    public bool AreAllFiguresPlaced()
+    {
+        return Player1.Figures.Count == 0 && Player2.Figures.Count == 0;
+    }
 
     public void AwardAdditionalFigures()
     {
         Player1.GenerateFigures(Color.Blue.ToArgb());
         Player2.GenerateFigures(Color.Red.ToArgb());
+    }
+
+    public bool CanPlayerPlaceAnyFigure(Player player, Panel[,] cells, int gridSize)
+    {
+        return player.Figures.Any(figure => CanPlaceFigure(figure, cells, gridSize));
+    }
+
+    private bool CanPlaceFigure(Figure figure, Panel[,] cells, int gridSize)
+    {
+        for (var row = 0; row < gridSize; row++)
+        for (var col = 0; col < gridSize; col++)
+        {
+            var canPlace = true;
+            foreach (var pix in figure.Pixels)
+            {
+                var x = row + pix.X;
+                var y = col + pix.Y;
+
+                if (x >= 0 && x < gridSize && y >= 0 && y < gridSize &&
+                    cells[x, y].BackColor == Color.White) continue;
+                canPlace = false;
+                break;
+            }
+            if (canPlace) return true;
+        }
+        return false;
     }
 }

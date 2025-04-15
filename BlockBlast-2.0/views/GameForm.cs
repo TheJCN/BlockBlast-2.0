@@ -17,7 +17,6 @@ public partial class GameForm : Form
     private Panel rightFiguresPanel;
 
     private GameController controller;
-
     private Figure? currentDraggingFigure;
     private bool isDragging;
 
@@ -30,6 +29,7 @@ public partial class GameForm : Form
         CreateLayout();
         GenerateFigures();
         UpdateTurnLabel();
+        UpdateScoreLabels();
     }
 
     private void SetupPreStartSetting()
@@ -67,7 +67,11 @@ public partial class GameForm : Form
         };
         Controls.Add(turnLabel);
         
-        leftPanel = new Panel { BackColor = Color.FromArgb(40, 40, 40), Dock = DockStyle.Left };
+        leftPanel = new Panel 
+        { 
+            BackColor = Color.FromArgb(40, 40, 40), 
+            Dock = DockStyle.Left 
+        };
         Controls.Add(leftPanel);
 
         var leftLabel = new Label
@@ -100,7 +104,11 @@ public partial class GameForm : Form
         };
         leftPanel.Controls.Add(leftScoreLabel);
         
-        rightPanel = new Panel { BackColor = Color.FromArgb(40, 40, 40), Dock = DockStyle.Right };
+        rightPanel = new Panel 
+        { 
+            BackColor = Color.FromArgb(40, 40, 40), 
+            Dock = DockStyle.Right 
+        };
         Controls.Add(rightPanel);
 
         var rightLabel = new Label
@@ -133,7 +141,10 @@ public partial class GameForm : Form
         };
         rightPanel.Controls.Add(rightScoreLabel);
         
-        fieldPanel = new Panel { BackColor = Color.LightSlateGray };
+        fieldPanel = new Panel 
+        { 
+            BackColor = Color.LightSlateGray 
+        };
         fieldPanel.AllowDrop = true;
         fieldPanel.DragEnter += (_, e) => e.Effect = DragDropEffects.Copy;
         fieldPanel.DragOver += FieldPanel_DragOver;
@@ -164,9 +175,10 @@ public partial class GameForm : Form
         leftPanel.Width = sidePanelWidth;
         rightPanel.Width = sidePanelWidth;
         
-        
-        var fieldSize = Math.Min(totalHeight - titleLabel.Height - turnLabel.Height - 40, 
-                                totalWidth - leftPanel.Width - rightPanel.Width - 40);
+        var fieldSize = Math.Min(
+            totalHeight - titleLabel.Height - turnLabel.Height - 40,
+            totalWidth - leftPanel.Width - rightPanel.Width - 40);
+            
         fieldPanel.Size = new Size(fieldSize, fieldSize);
         fieldPanel.Location = new Point(
             leftPanel.Width + (totalWidth - leftPanel.Width - rightPanel.Width - fieldSize) / 2,
@@ -175,19 +187,37 @@ public partial class GameForm : Form
         var cellSize = fieldSize / GridSize;
         
         for (var row = 0; row < GridSize; row++)
-        for (var col = 0; col < GridSize; col++)
         {
-            var cell = cells[row, col];
-            cell.Size = new Size(cellSize - 2, cellSize - 2);
-            cell.Location = new Point(col * cellSize, row * cellSize);
+            for (var col = 0; col < GridSize; col++)
+            {
+                var cell = cells[row, col];
+                cell.Size = new Size(cellSize - 2, cellSize - 2);
+                cell.Location = new Point(col * cellSize, row * cellSize);
+            }
         }
     }
 
     private void UpdateTurnLabel()
     {
         var currentPlayer = controller.GetCurrentPlayer();
-        turnLabel.Text = currentPlayer == controller.Player1 ? "Ход: Игрок 1 (Синий)" : "Ход: Игрок 2 (Красный)";
-        turnLabel.BackColor = currentPlayer == controller.Player1 ? Color.FromArgb(0, 50, 100) : Color.FromArgb(100, 50, 0);
+        turnLabel.Text = currentPlayer == controller.Player1 ? 
+            "Ход: Игрок 1 (Синий)" : "Ход: Игрок 2 (Красный)";
+        turnLabel.BackColor = currentPlayer == controller.Player1 ? 
+            Color.FromArgb(0, 50, 100) : Color.FromArgb(100, 50, 0);
+    }
+
+    private void UpdateScoreLabels()
+    {
+        var leftScoreLabel = leftPanel.Controls.OfType<Label>()
+            .FirstOrDefault(l => l.Dock == DockStyle.Bottom);
+        var rightScoreLabel = rightPanel.Controls.OfType<Label>()
+            .FirstOrDefault(l => l.Dock == DockStyle.Bottom);
+
+        if (leftScoreLabel != null)
+            leftScoreLabel.Text = $"Очки: {controller.Player1.Score}";
+
+        if (rightScoreLabel != null)
+            rightScoreLabel.Text = $"Очки: {controller.Player2.Score}";
     }
 
     private void GenerateFigures()
@@ -208,9 +238,11 @@ public partial class GameForm : Form
 
         var figures = player.Figures;
         if (figures.Count == 0) return;
-        
-        const int baseFigureSize = 180; 
-        var figureHeight = Math.Min(baseFigureSize, (targetPanel.Height - 20) / Math.Max(3, figures.Count));
+
+        const int baseFigureSize = 180;
+        var figureHeight = Math.Min(
+            baseFigureSize, 
+            (targetPanel.Height - 20) / Math.Max(3, figures.Count));
 
         for (var i = 0; i < figures.Count; i++)
         {
@@ -267,10 +299,13 @@ public partial class GameForm : Form
 
     private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize)
     {
-        panel.Controls.OfType<Panel>().Where(p => p.Tag as string == "pixel").ToList().ForEach(p => p.Dispose());
+        panel.Controls.OfType<Panel>()
+            .Where(p => p.Tag as string == "pixel")
+            .ToList()
+            .ForEach(p => p.Dispose());
 
         if (fig.Pixels.Length == 0) return;
-        
+
         var minX = fig.Pixels.Min(p => p.X);
         var minY = fig.Pixels.Min(p => p.Y);
         var maxX = fig.Pixels.Max(p => p.X);
@@ -278,12 +313,12 @@ public partial class GameForm : Form
 
         var figWidth = maxY - minY + 1;
         var figHeight = maxX - minX + 1;
-        
+
         var pixelSize = Math.Min(panelSize / Math.Max(figWidth, figHeight), 45);
-        
+
         var offsetX = (panel.Width - figWidth * pixelSize) / 2;
         var offsetY = (panel.Height - figHeight * pixelSize) / 2;
-        
+
         foreach (var pix in fig.Pixels)
         {
             var p = new Panel
@@ -311,15 +346,18 @@ public partial class GameForm : Form
         var col = clientPos.X / cellSize;
         
         foreach (var cell in cells)
+        {
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
+        }
         
         foreach (var pix in currentDraggingFigure.Pixels)
         {
             var x = row + pix.X;
             var y = col + pix.Y;
 
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize) continue;
+            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize) 
+                continue;
 
             if (cells[x, y].BackColor == Color.White)
                 cells[x, y].BackColor = Color.LightGreen;
@@ -339,26 +377,66 @@ public partial class GameForm : Form
         foreach (var cell in cells)
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
-        
+
         var placed = controller.PlaceFigure(currentDraggingFigure, row, col, cells, GridSize);
 
         if (!placed) return;
+
         controller.GetCurrentPlayer().RemoveFigure(currentDraggingFigure);
         currentDraggingFigure = null;
         isDragging = false;
-            
+
         DrawPlayerFigures();
-            
+
         var score = controller.CheckAndClearLines(cells, GridSize);
         controller.GetCurrentPlayer().AddScore(score);
-            
-        if (controller.AreAllFiguresPlaced())
+        UpdateScoreLabels();
+        
+        var canPlayer1Move = controller.CanPlayerPlaceAnyFigure(controller.Player1, cells, GridSize);
+        var canPlayer2Move = controller.CanPlayerPlaceAnyFigure(controller.Player2, cells, GridSize);
+
+        if (!canPlayer1Move && !canPlayer2Move)
         {
-            controller.AwardAdditionalFigures();
+            EndGame();
+            return;
+        }
+        
+        if (controller.GetCurrentPlayer().Figures.Count == 0)
+        {
+            if (controller.GetCurrentPlayer() == controller.Player1)
+                controller.Player1.GenerateFigures(Color.Blue.ToArgb());
+            else
+                controller.Player2.GenerateFigures(Color.Red.ToArgb());
+                
             DrawPlayerFigures();
         }
-            
+
         controller.SwitchPlayer();
         UpdateTurnLabel();
+
+        if (controller.CanPlayerPlaceAnyFigure(controller.GetCurrentPlayer(), cells, GridSize)) return;
+        MessageBox.Show("Игрок не может сделать ход. Ход переходит к противнику.");
+        controller.SwitchPlayer();
+        UpdateTurnLabel();
+    }
+
+    private void EndGame()
+    {
+        string winner;
+        if (controller.Player1.Score > controller.Player2.Score)
+            winner = "Игрок 1 (Синий)";
+        else if (controller.Player2.Score > controller.Player1.Score)
+            winner = "Игрок 2 (Красный)";
+        else
+            winner = "Ничья!";
+
+        MessageBox.Show($"Игра окончена!\nПобедитель: {winner}\n" +
+                        $"Счет: Игрок 1 - {controller.Player1.Score}, Игрок 2 - {controller.Player2.Score}",
+            "Конец игры",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+        
+        Application.Restart();
+        Environment.Exit(0);
     }
 }
