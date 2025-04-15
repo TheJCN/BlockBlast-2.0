@@ -1,0 +1,26 @@
+using BlockBlast_2._0.model;
+
+namespace BlockBlast_2._0;
+
+public static class FigureFactory
+{
+    private static Random random = new();
+
+    public static Figure CreateRandomFigure(int color)
+    {
+        var figureTypes = new List<Pixel[]>
+        {
+            // Квадрат 2x2
+            new[] { new Pixel(color, 0, 0), new Pixel(color, 1, 0), new Pixel(color, 0, 1), new Pixel(color, 1, 1) },
+            // Линия вертикальная
+            new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2), new Pixel(color, 0, 3) },
+            // Линия горизонтальная
+            new[] { new Pixel(color, 0, 0), new Pixel(color, 1, 0), new Pixel(color, 2, 0), new Pixel(color, 3, 0) },
+            // L-образная
+            new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2), new Pixel(color, 1, 2) }
+        };
+
+        var index = random.Next(figureTypes.Count);
+        return new Figure(figureTypes[index]);
+    }
+}
