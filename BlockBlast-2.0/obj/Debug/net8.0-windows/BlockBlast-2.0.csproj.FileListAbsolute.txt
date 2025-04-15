@@ -12,3 +12,4 @@ C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-wind
 C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast-2.0.pdb
 C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast-2.0.genruntimeconfig.cache
 C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\ref\BlockBlast-2.0.dll
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast-2.0.sourcelink.json
