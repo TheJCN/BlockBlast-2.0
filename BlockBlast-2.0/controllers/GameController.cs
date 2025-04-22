@@ -1,5 +1,9 @@
 using BlockBlast_2._0.model;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace BlockBlast_2._0.controllers
 {
@@ -19,7 +23,8 @@ namespace BlockBlast_2._0.controllers
 
             for (int i = 0; i < playerCount; i++)
             {
-                Players.Add(new Player(colors[i].ToArgb(), 0));
+                int playerColor = colors[i].ToArgb();
+                Players.Add(new Player(playerColor, 0));
             }
             
             _currentPlayerIndex = 0;
@@ -36,7 +41,7 @@ namespace BlockBlast_2._0.controllers
         {
             foreach (var player in Players)
             {
-                player.GenerateFigures(player.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Blue.ToArgb());
+                player.GenerateFigures();
             }
         }
 
@@ -130,6 +135,9 @@ namespace BlockBlast_2._0.controllers
 
         public bool AreAllFiguresPlaced()
         {
+            if (Players.Count == 1)
+                return false;
+                
             return Players.All(p => p.Figures.Count == 0);
         }
 
