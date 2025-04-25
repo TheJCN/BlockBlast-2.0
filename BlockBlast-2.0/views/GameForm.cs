@@ -1,5 +1,5 @@
 using BlockBlast_2._0.controllers;
-using BlockBlast_2._0.model;
+using BlockBlast_2._0.models;
 
 namespace BlockBlast_2._0;
 
@@ -11,13 +11,13 @@ public partial class GameForm : Form
     private List<Panel> figurePanels = [];
 
     private GameController controller;
-    private Figure currentDraggingFigure;
+    private Figure currentDraggingFigure = null!;
     private bool isDragging;
     private int playerCount;
-    private System.Windows.Forms.Timer turnTimer;
+    private System.Windows.Forms.Timer turnTimer = null!;
     private int timeLeft;
     private int timeLimit;
-    private Label timeLabel;
+    private Label timeLabel = null!;
 
     public GameForm(int playerCount, int timeLimit)
     {
@@ -52,7 +52,7 @@ public partial class GameForm : Form
         {
             Interval = 1000
         };
-        turnTimer.Tick += TurnTimer_Tick;
+        turnTimer.Tick += TurnTimer_Tick!;
 
         if (timeLimit > 0)
         {
@@ -61,9 +61,7 @@ public partial class GameForm : Form
             turnTimer.Start();
         }
         else
-        {
             timeLabel.Text = "Время на ход не ограничено";
-        }
     }
 
     private void TurnTimer_Tick(object sender, EventArgs e)
@@ -71,11 +69,9 @@ public partial class GameForm : Form
         timeLeft--;
         UpdateTimeLabel();
 
-        if (timeLeft <= 0)
-        {
-            turnTimer.Stop();
-            TimeUp();
-        }
+        if (timeLeft > 0) return;
+        turnTimer.Stop();
+        TimeUp();
     }
 
     private void UpdateTimeLabel()
@@ -134,8 +130,8 @@ public partial class GameForm : Form
             AllowDrop = true
         };
         fieldPanel.DragEnter += (_, e) => e.Effect = DragDropEffects.Copy;
-        fieldPanel.DragOver += FieldPanel_DragOver;
-        fieldPanel.DragDrop += FieldPanel_DragDrop;
+        fieldPanel.DragOver += FieldPanel_DragOver!;
+        fieldPanel.DragDrop += FieldPanel_DragDrop!;
         Controls.Add(fieldPanel);
             
         for (var row = 0; row < GridSize; row++)
@@ -234,13 +230,11 @@ public partial class GameForm : Form
         var cellSize = fieldSize / GridSize;
             
         for (var row = 0; row < GridSize; row++)
+        for (var col = 0; col < GridSize; col++)
         {
-            for (var col = 0; col < GridSize; col++)
-            {
-                var cell = cells[row, col];
-                cell.Size = new Size(cellSize - 2, cellSize - 2);
-                cell.Location = new Point(col * cellSize, row * cellSize);
-            }
+            var cell = cells[row, col];
+            cell.Size = new Size(cellSize - 2, cellSize - 2);
+            cell.Location = new Point(col * cellSize, row * cellSize);
         }
     }
 
@@ -260,11 +254,8 @@ public partial class GameForm : Form
     private void UpdateScoreLabels()
     {
         for (var i = 0; i < controller.Players.Count; i++)
-        {
-            var scoreLabel = Controls.Find($"scoreLabel{i}", true).FirstOrDefault() as Label;
-            if (scoreLabel != null)
+            if (Controls.Find($"scoreLabel{i}", true).FirstOrDefault() is Label scoreLabel)
                 scoreLabel.Text = $"Очки: {controller.Players[i].Score}";
-        }
     }
 
     private void GenerateFigures()
@@ -279,13 +270,8 @@ public partial class GameForm : Form
         figurePanels.Clear();
 
         for (var i = 0; i < controller.Players.Count; i++)
-        {
-            var figuresPanel = Controls.Find($"figuresPanel{i}", true).FirstOrDefault() as Panel;
-            if (figuresPanel != null)
-            {
+            if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
                 DrawFiguresForPlayer(controller.Players[i], figuresPanel);
-            }
-        }
     }
 
     private void DrawFiguresForPlayer(Player player, Panel targetPanel)
@@ -354,7 +340,7 @@ public partial class GameForm : Form
         return figPanel;
     }
 
-    private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize)
+    private static void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize)
     {
         panel.Controls.OfType<Panel>()
             .Where(p => p.Tag as string == "pixel")
@@ -437,17 +423,17 @@ public partial class GameForm : Form
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
 
-        var placed = controller.PlaceFigure(currentDraggingFigure, row, col, cells, GridSize);
+        var placed = GameController.PlaceFigure(currentDraggingFigure, row, col, cells, GridSize);
 
         if (!placed) return;
 
         controller.CurrentPlayer.RemoveFigure(currentDraggingFigure);
-        currentDraggingFigure = null;
+        currentDraggingFigure = null!;
         isDragging = false;
 
         DrawPlayerFigures();
 
-        var score = controller.CheckAndClearLines(cells, GridSize);
+        controller.CheckAndClearLines(cells, GridSize);
         UpdateScoreLabels();
             
         if (controller.CurrentPlayer.Figures.Count == 0)
@@ -458,8 +444,8 @@ public partial class GameForm : Form
         
         if (controller.Players.Count > 1)
         {
-            var canAnyPlayerMove = controller.Players.Any(p => 
-                controller.CanPlayerPlaceAnyFigure(p, cells, GridSize));
+            var canAnyPlayerMove = controller.Players.Any(p =>
+                GameController.CanPlayerPlaceAnyFigure(p, cells, GridSize));
 
             if (!canAnyPlayerMove)
             {
@@ -473,13 +459,11 @@ public partial class GameForm : Form
 
     private void EndGame()
     {
-        turnTimer?.Stop();
+        turnTimer.Stop();
 
         string winnerText;
         if (controller.Players.Count == 1)
-        {
             winnerText = $"Игра окончена! Ваш счет: {controller.Players[0].Score}";
-        }
         else
         {
             var winner = controller.Players
@@ -490,7 +474,7 @@ public partial class GameForm : Form
                 .GroupBy(p => p.Score)
                 .Count() == 1 
                 ? "Ничья!" 
-                : $"Победитель: Игрок {controller.Players.IndexOf(winner) + 1}";
+                : $"Победитель: Игрок {controller.Players.IndexOf(winner!) + 1}";
 
             var scores = string.Join("\n", controller.Players.Select((p, i) => 
                 $"Игрок {i + 1}: {p.Score} очков"));
@@ -517,19 +501,17 @@ public partial class GameForm : Form
             
         controller.NextPlayer();
         UpdateTurnLabel();
-            
-        if (!controller.CanPlayerPlaceAnyFigure(controller.CurrentPlayer, cells, GridSize))
-        {
-            MessageBox.Show("Игрок не может сделать ход. Ход переходит к следующему игроку.");
-            controller.NextPlayer();
-            UpdateTurnLabel();
-        }
+
+        if (GameController.CanPlayerPlaceAnyFigure(controller.CurrentPlayer, cells, GridSize)) return;
+        MessageBox.Show("Игрок не может сделать ход. Ход переходит к следующему игроку.");
+        controller.NextPlayer();
+        UpdateTurnLabel();
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
         base.OnFormClosing(e);
-        turnTimer?.Stop();
-        turnTimer?.Dispose();
+        turnTimer.Stop();
+        turnTimer.Dispose();
     }
 }

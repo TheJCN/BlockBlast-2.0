@@ -1,3 +1,5 @@
+using BlockBlast_2._0.views;
+
 namespace BlockBlast_2._0;
 
 static class Program

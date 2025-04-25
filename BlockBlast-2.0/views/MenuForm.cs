@@ -1,13 +1,9 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace BlockBlast_2._0
+namespace BlockBlast_2._0.views
 {
     public partial class MenuForm : Form
     {
-        private ComboBox timeComboBox;
-        private int selectedTimeLimit = 0;
+        private ComboBox? timeComboBox;
+        private int selectedTimeLimit;
 
         public MenuForm()
         {
@@ -65,7 +61,7 @@ namespace BlockBlast_2._0
                 "30 секунд" 
             });
             timeComboBox.SelectedIndex = 0;
-            timeComboBox.SelectedIndexChanged += (s, e) => 
+            timeComboBox.SelectedIndexChanged += (_, _) => 
             {
                 selectedTimeLimit = timeComboBox.SelectedIndex switch
                 {
@@ -127,7 +123,7 @@ namespace BlockBlast_2._0
             btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(70, 70, 70);
             btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(30, 30, 30);
 
-            btn.Click += MenuButton_Click;
+            btn.Click += MenuButton_Click!;
 
             return btn;
         }
@@ -148,7 +144,7 @@ namespace BlockBlast_2._0
         {
             if (sender is not Button button) return;
 
-            switch ((int)button.Tag)
+            switch ((int)button.Tag!)
             {
                 case 0:
                     StartGame(1, selectedTimeLimit);

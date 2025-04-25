@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace BlockBlast_2._0;
+namespace BlockBlast_2._0.views;
 
 partial class MenuForm
 {

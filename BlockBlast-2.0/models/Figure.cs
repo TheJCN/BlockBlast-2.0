@@ -1,4 +1,4 @@
-namespace BlockBlast_2._0.model;
+namespace BlockBlast_2._0.models;
 
 public class Figure
 {

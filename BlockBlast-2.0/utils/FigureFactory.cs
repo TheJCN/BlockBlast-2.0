@@ -1,10 +1,10 @@
-using BlockBlast_2._0.model;
+using BlockBlast_2._0.models;
 
 namespace BlockBlast_2._0;
 
 public static class FigureFactory
 {
-    private static Random random = new();
+    private static readonly Random Random = new();
 
     public static Figure CreateRandomFigure(int color)
     {
@@ -20,7 +20,7 @@ public static class FigureFactory
             new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2), new Pixel(color, 1, 2) }
         };
 
-        var index = random.Next(figureTypes.Count);
+        var index = Random.Next(figureTypes.Count);
         return new Figure(figureTypes[index]);
     }
 }
