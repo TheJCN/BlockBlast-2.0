@@ -1,32 +1,23 @@
 using BlockBlast_2._0.controllers;
 using BlockBlast_2._0.models;
-using Timer = System.Windows.Forms.Timer;
 
 namespace BlockBlast_2._0;
 
 public partial class GameForm : Form
 {
     private const int GridSize = 10;
-    private Panel[,] cells = new Panel[GridSize, GridSize];
     private List<Panel> playerPanels = [];
     private List<Panel> figurePanels = [];
-
     private GameController controller;
-    private Figure currentDraggingFigure;
-    private bool isDragging;
     private int playerCount;
-    private Timer turnTimer;
-    private int timeLeft;
-    private int timeLimit;
     private Label timeLabel;
 
     public GameForm(int playerCount, int timeLimit)
     {
         this.playerCount = playerCount;
-        this.timeLimit = timeLimit;
             
         InitializeComponent();
-        controller = new GameController(playerCount);
+        controller = new GameController(playerCount, GridSize, timeLimit);
         SetupPreStartSetting();
         Resize += (_, _) =>
         {
@@ -42,40 +33,18 @@ public partial class GameForm : Form
 
     private void InitializeTimer()
     {
-        turnTimer = new Timer
-        {
-            Interval = 1000
-        };
-        turnTimer.Tick += TurnTimer_Tick;
-
-        if (timeLimit > 0)
-        {
-            timeLeft = timeLimit;
-            UpdateTimeLabel();
-            turnTimer.Start();
-        }
-        else
-            timeLabel.Text = "Время на ход не ограничено";
+        controller.InitializeTimer(TurnTimer_Tick);
+        timeLabel.Text = controller.GetTimeText();
+        timeLabel.ForeColor = controller.GetTimeLabelColor();
     }
 
     private void TurnTimer_Tick(object sender, EventArgs e)
     {
-        timeLeft--;
-        UpdateTimeLabel();
+        controller.UpdateTimer();
+        timeLabel.Text = controller.GetTimeText();
+        timeLabel.ForeColor = controller.GetTimeLabelColor();
 
-        if (timeLeft > 0) return;
-        turnTimer.Stop();
-        TimeUp();
-    }
-
-    private void UpdateTimeLabel()
-    {
-        timeLabel.Text = $"Осталось времени: {timeLeft} сек.";
-        timeLabel.ForeColor = timeLeft <= 5 ? Color.Red : Color.White;
-    }
-
-    private void TimeUp()
-    {
+        if (!controller.IsTimeUp()) return;
         MessageBox.Show("Время на ход истекло! Ход переходит к следующему игроку.");
         EndTurn();
     }
@@ -118,7 +87,7 @@ public partial class GameForm : Form
             Name = "currentPlayerPanel",
             Dock = DockStyle.Top,
             Height = 50,
-            BackColor = Color.FromArgb(80, 80, 80)
+            BackColor = controller.GetCurrentPlayerPanelColor()
         };
 
         var currentPlayerLabel = new Label
@@ -127,7 +96,8 @@ public partial class GameForm : Form
             Dock = DockStyle.Fill,
             TextAlign = ContentAlignment.MiddleCenter,
             Font = new Font("Segoe UI", 14, FontStyle.Bold),
-            ForeColor = Color.White
+            ForeColor = Color.White,
+            Text = controller.GetCurrentPlayerText()
         };
         currentPlayerPanel.Controls.Add(currentPlayerLabel);
         Controls.Add(currentPlayerPanel);
@@ -145,16 +115,12 @@ public partial class GameForm : Form
         fieldPanel.DragDrop += FieldPanel_DragDrop;
         Controls.Add(fieldPanel);
             
+        // Add cells to the field panel
+        var cells = controller.GetCells();
         for (var row = 0; row < GridSize; row++)
         for (var col = 0; col < GridSize; col++)
         {
-            var cell = new Panel
-            {
-                BackColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle
-            };
-            fieldPanel.Controls.Add(cell);
-            cells[row, col] = cell;
+            fieldPanel.Controls.Add(cells[row, col]);
         }
 
         UpdateLayout();
@@ -198,7 +164,7 @@ public partial class GameForm : Form
             var scoreLabel = new Label
             {
                 Name = $"scoreLabel{i}",
-                Text = "Очки: 0",
+                Text = controller.GetPlayerScoreText(i),
                 Dock = DockStyle.Bottom,
                 ForeColor = Color.White,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -265,6 +231,7 @@ public partial class GameForm : Form
         }
 
         var cellSize = fieldSize / GridSize;
+        var cells = controller.GetCells();
             
         for (var row = 0; row < GridSize; row++)
         for (var col = 0; col < GridSize; col++)
@@ -280,24 +247,16 @@ public partial class GameForm : Form
         var currentPlayerPanel = Controls.Find("currentPlayerPanel", true).FirstOrDefault() as Panel;
         var currentPlayerLabel = currentPlayerPanel?.Controls.Find("currentPlayerLabel", true).FirstOrDefault() as Label;
         if (currentPlayerLabel == null) return;
-
-        var currentPlayer = controller.CurrentPlayer;
-        var playerIndex = controller.Players.IndexOf(currentPlayer) + 1;
-        var playerColor = Color.FromArgb(currentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb());
             
-        currentPlayerLabel.Text = $"Сейчас ходит: Игрок {playerIndex}";
-        currentPlayerPanel.BackColor = Color.FromArgb(80, playerColor);
+        currentPlayerLabel.Text = controller.GetCurrentPlayerText();
+        currentPlayerPanel.BackColor = controller.GetCurrentPlayerPanelColor();
     }
 
     private void UpdateScoreLabels()
     {
-        for (var i = 0; i < controller.Players.Count; i++)
-        {
+        for (var i = 0; i < playerCount; i++)
             if (Controls.Find($"scoreLabel{i}", true).FirstOrDefault() is Label scoreLabel)
-            {
-                scoreLabel.Text = $"Очки: {controller.Players[i].Score}";
-            }
-        }
+                scoreLabel.Text = controller.GetPlayerScoreText(i);
     }
 
     private void GenerateFigures()
@@ -309,12 +268,11 @@ public partial class GameForm : Form
     private void DrawPlayerFigures()
     {
         foreach (var panel in figurePanels)
-        {
             panel.Dispose();
-        }
+        
         figurePanels.Clear();
 
-        for (var i = 0; i < controller.Players.Count; i++)
+        for (var i = 0; i < playerCount; i++)
             if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
                 DrawFiguresForPlayer(controller.Players[i], figuresPanel);
     }
@@ -331,115 +289,103 @@ public partial class GameForm : Form
             baseFigureSize, 
             (targetPanel.Height - 20) / Math.Max(3, figures.Count));
 
-        // Рассчитываем общую высоту всех фигур с отступами
         var totalFiguresHeight = figures.Count * (figureHeight + 10) - 10;
-    
-        // Вычисляем начальную позицию для центрирования по вертикали
-        var startY = (targetPanel.Height - totalFiguresHeight) / 2;
-        startY = Math.Max(10, startY); // Минимальный отступ сверху 10px
+        var startY = Math.Max(10, (targetPanel.Height - totalFiguresHeight) / 2);
 
         for (var i = 0; i < figures.Count; i++)
         {
             var fig = figures[i];
             var figPanel = CreateFigurePanel(fig, figureHeight, player);
             figPanel.Top = startY + i * (figureHeight + 10);
-            figPanel.Left = (targetPanel.Width - figPanel.Width) / 2; // Центрирование по горизонтали
+            figPanel.Left = (targetPanel.Width - figPanel.Width) / 2;
             targetPanel.Controls.Add(figPanel);
             figurePanels.Add(figPanel);
         }
     }
 
-private Panel CreateFigurePanel(Figure fig, int size, Player player)
-{
-    var figPanel = new Panel
+    private Panel CreateFigurePanel(Figure fig, int size, Player player)
     {
-        Size = new Size(size, size),
-        Tag = new Tuple<Figure, Player>(fig, player),
-        BackColor = Color.Transparent,
-        Cursor = Cursors.Hand,
-        Margin = new Padding(10)
-    };
-
-    DrawFigureIntoPanel(figPanel, fig, size, player);
-
-    return figPanel;
-}
-
-private void RedrawPlayerFigures()
-{
-    for (var i = 0; i < controller.Players.Count; i++)
-    {
-        if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
+        var figPanel = new Panel
         {
-            DrawFiguresForPlayer(controller.Players[i], figuresPanel);
-        }
-    }
-}
-
-private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player player)
-{
-    panel.Controls.Clear();
-
-    if (fig.Pixels.Length == 0) return;
-
-    var minX = fig.Pixels.Min(p => p.X);
-    var minY = fig.Pixels.Min(p => p.Y);
-    var maxX = fig.Pixels.Max(p => p.X);
-    var maxY = fig.Pixels.Max(p => p.Y);
-
-    var figWidth = maxY - minY + 1;
-    var figHeight = maxX - minX + 1;
-
-    // Уменьшаем размер пикселей фигуры
-    var pixelSize = Math.Min(panelSize / Math.Max(figWidth, figHeight), 30); // было 45
-
-    // Центрируем фигуру в панели
-    var offsetX = (panel.Width - figWidth * pixelSize) / 2;
-    var offsetY = (panel.Height - figHeight * pixelSize) / 2;
-
-    var figureContainer = new Panel
-    {
-        Size = new Size(figWidth * pixelSize, figHeight * pixelSize),
-        Location = new Point(offsetX, offsetY),
-        BackColor = Color.Transparent,
-        Tag = new Tuple<Figure, Player>(fig, player)
-    };
-        
-    figureContainer.MouseDown += (sender, e) =>
-    {
-        if (e.Button != MouseButtons.Left || figureContainer.Tag is not Tuple<Figure, Player> tuple) return;
-        if (controller.CurrentPlayer != tuple.Item2) return;
-        currentDraggingFigure = tuple.Item1;
-        isDragging = true;
-        panel.DoDragDrop(tuple.Item1, DragDropEffects.Copy);
-    };
-
-    foreach (var pix in fig.Pixels)
-    {
-        var p = new Panel
-        {
-            Size = new Size(pixelSize - 2, pixelSize - 2),
-            BackColor = Color.FromArgb(pix.Color),
-            Location = new Point(
-                (pix.Y - minY) * pixelSize,
-                (pix.X - minX) * pixelSize),
-            Cursor = Cursors.Hand
+            Size = new Size(size, size),
+            Tag = new Tuple<Figure, Player>(fig, player),
+            BackColor = Color.Transparent,
+            Cursor = Cursors.Hand,
+            Margin = new Padding(10)
         };
 
-        p.MouseDown += (sender, e) =>
+        DrawFigureIntoPanel(figPanel, fig, size, player);
+
+        return figPanel;
+    }
+
+    private void RedrawPlayerFigures()
+    {
+        for (var i = 0; i < playerCount; i++)
+            if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
+                DrawFiguresForPlayer(controller.Players[i], figuresPanel);
+    }
+
+    private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player player)
+    {
+        panel.Controls.Clear();
+
+        if (fig.Pixels.Length == 0) return;
+
+        var minX = fig.Pixels.Min(p => p.X);
+        var minY = fig.Pixels.Min(p => p.Y);
+        var maxX = fig.Pixels.Max(p => p.X);
+        var maxY = fig.Pixels.Max(p => p.Y);
+
+        var figWidth = maxY - minY + 1;
+        var figHeight = maxX - minX + 1;
+
+        var pixelSize = Math.Min(panelSize / Math.Max(figWidth, figHeight), 30);
+
+        var offsetX = (panel.Width - figWidth * pixelSize) / 2;
+        var offsetY = (panel.Height - figHeight * pixelSize) / 2;
+
+        var figureContainer = new Panel
+        {
+            Size = new Size(figWidth * pixelSize, figHeight * pixelSize),
+            Location = new Point(offsetX, offsetY),
+            BackColor = Color.Transparent,
+            Tag = new Tuple<Figure, Player>(fig, player)
+        };
+        
+        figureContainer.MouseDown += (sender, e) =>
         {
             if (e.Button != MouseButtons.Left || figureContainer.Tag is not Tuple<Figure, Player> tuple) return;
             if (controller.CurrentPlayer != tuple.Item2) return;
-            currentDraggingFigure = tuple.Item1;
-            isDragging = true;
+            controller.StartDragging(tuple.Item1);
             panel.DoDragDrop(tuple.Item1, DragDropEffects.Copy);
         };
 
-        figureContainer.Controls.Add(p);
-    }
+        foreach (var pix in fig.Pixels)
+        {
+            var p = new Panel
+            {
+                Size = new Size(pixelSize - 2, pixelSize - 2),
+                BackColor = Color.FromArgb(pix.Color),
+                Location = new Point(
+                    (pix.Y - minY) * pixelSize,
+                    (pix.X - minX) * pixelSize),
+                Cursor = Cursors.Hand
+            };
 
-    panel.Controls.Add(figureContainer);
-}
+            p.MouseDown += (sender, e) =>
+            {
+                if (e.Button != MouseButtons.Left || figureContainer.Tag is not Tuple<Figure, Player> tuple) return;
+                if (controller.CurrentPlayer != tuple.Item2) return;
+                controller.StartDragging(tuple.Item1);
+                panel.DoDragDrop(tuple.Item1, DragDropEffects.Copy);
+            };
+
+            figureContainer.Controls.Add(p);
+        }
+
+        panel.Controls.Add(figureContainer);
+    }
 
     private void FieldPanel_DragOver(object sender, DragEventArgs e)
     {
@@ -447,28 +393,7 @@ private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player 
         if (fieldPanel == null) return;
 
         var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        var cellSize = cells[0, 0].Width + 2;
-
-        var row = clientPos.Y / cellSize;
-        var col = clientPos.X / cellSize;
-                
-        foreach (var cell in cells)
-        {
-            if (cell.BackColor == Color.LightGreen)
-                cell.BackColor = Color.White;
-        }
-                
-        foreach (var pix in currentDraggingFigure.Pixels)
-        {
-            var x = row + pix.X;
-            var y = col + pix.Y;
-
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize) 
-                continue;
-
-            if (cells[x, y].BackColor == Color.White)
-                cells[x, y].BackColor = Color.LightGreen;
-        }
+        controller.HighlightCells(clientPos, fieldPanel);
     }
 
     private void FieldPanel_DragDrop(object sender, DragEventArgs e)
@@ -477,77 +402,23 @@ private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player 
         if (fieldPanel == null) return;
 
         var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        var cellSize = cells[0, 0].Width + 2;
+        var shouldEndGame = controller.TryPlaceFigure(clientPos, fieldPanel);
 
-        var row = clientPos.Y / cellSize;
-        var col = clientPos.X / cellSize;
-                
-        foreach (var cell in cells)
-            if (cell.BackColor == Color.LightGreen)
-                cell.BackColor = Color.White;
-
-        var placed = GameController.PlaceFigure(currentDraggingFigure, row, col, cells, GridSize);
-
-        if (!placed) return;
-
-        controller.CurrentPlayer.RemoveFigure(currentDraggingFigure);
-        currentDraggingFigure = null;
-        isDragging = false;
+        if (shouldEndGame)
+        {
+            EndGame();
+            return;
+        }
 
         DrawPlayerFigures();
-
-        controller.CheckAndClearLines(cells, GridSize);
         UpdateScoreLabels();
-                
-        if (controller.CurrentPlayer.Figures.Count == 0)
-        {
-            controller.CurrentPlayer.GenerateFigures();
-            DrawPlayerFigures();
-        }
-            
-        if (controller.Players.Count > 1)
-        {
-            var canAnyPlayerMove = controller.Players.Any(p =>
-                GameController.CanPlayerPlaceAnyFigure(p, cells, GridSize));
-
-            if (!canAnyPlayerMove)
-            {
-                EndGame();
-                return;
-            }
-        }
-
         EndTurn();
     }
 
     private void EndGame()
     {
-        turnTimer.Stop();
-
-        string winnerText;
-        if (controller.Players.Count == 1)
-        {
-            winnerText = $"Игра окончена! Ваш счет: {controller.Players[0].Score}";
-        }
-        else
-        {
-            var winner = controller.Players
-                .OrderByDescending(p => p.Score)
-                .FirstOrDefault();
-
-            winnerText = controller.Players
-                .GroupBy(p => p.Score)
-                .Count() == 1 
-                ? "Ничья!" 
-                : $"Победитель: Игрок {controller.Players.IndexOf(winner) + 1}";
-
-            var scores = string.Join("\n", controller.Players.Select((p, i) => 
-                $"Игрок {i + 1}: {p.Score} очков"));
-                    
-            winnerText += $"\n{scores}";
-        }
-
-        MessageBox.Show(winnerText,
+        controller.StopTimer();
+        MessageBox.Show(controller.GetEndGameMessage(),
             "Конец игры",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
@@ -557,17 +428,14 @@ private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player 
 
     private void EndTurn()
     {
-        if (timeLimit > 0)
-        {
-            timeLeft = timeLimit;
-            turnTimer.Start();
-            UpdateTimeLabel();
-        }
+        controller.ResetTimer();
+        timeLabel.Text = controller.GetTimeText();
+        timeLabel.ForeColor = controller.GetTimeLabelColor();
                 
         controller.NextPlayer();
         UpdateTurnLabel();
 
-        if (GameController.CanPlayerPlaceAnyFigure(controller.CurrentPlayer, cells, GridSize)) return;
+        if (controller.CanPlayerPlaceAnyFigure(controller.CurrentPlayer)) return;
         MessageBox.Show("Игрок не может сделать ход. Ход переходит к следующему игроку.");
         controller.NextPlayer();
         UpdateTurnLabel();
@@ -576,7 +444,6 @@ private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
         base.OnFormClosing(e);
-        turnTimer.Stop();
-        turnTimer.Dispose();
+        controller.StopTimer();
     }
 }
