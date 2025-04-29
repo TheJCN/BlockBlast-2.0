@@ -65,7 +65,7 @@ public class GameController
             player.GenerateFigures();
     }
 
-    public bool PlaceFigure(Figure figure, int baseRow, int baseCol)
+    private bool PlaceFigure(Figure figure, int baseRow, int baseCol)
     {
         foreach (var pix in figure.Pixels)
         {
@@ -89,7 +89,7 @@ public class GameController
         return true;
     }
 
-    public void CheckAndClearLines()
+    private void CheckAndClearLines()
     {
         var linesCleared = 0;
                 
@@ -221,7 +221,7 @@ public class GameController
     }
     
 
-    public void HighlightCells(Point clientPos, Panel fieldPanel)
+    public void HighlightCells(Point clientPos)
     {
         var cellSize = cells[0, 0].Width + 2;
         var row = clientPos.Y / cellSize;
@@ -246,12 +246,12 @@ public class GameController
         }
     }
 
-    public bool TryPlaceFigure(Point clientPos, Panel fieldPanel)
+    public bool TryPlaceFigure(Point clientPos)
     {
         var cellSize = cells[0, 0].Width + 2;
         var row = clientPos.Y / cellSize;
         var col = clientPos.X / cellSize;
-                
+            
         foreach (var cell in cells)
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
@@ -264,16 +264,12 @@ public class GameController
         EndDragging();
 
         CheckAndClearLines();
-                
+            
         if (CurrentPlayer.Figures.Count == 0)
             CurrentPlayer.GenerateFigures();
 
-        if (Players.Count <= 1) return false;
-        var canAnyPlayerMove = Players.Any(CanPlayerPlaceAnyFigure);
-
-        return !canAnyPlayerMove;
+        return true; 
     }
-
     public string GetEndGameMessage()
     {
         if (Players.Count == 1)

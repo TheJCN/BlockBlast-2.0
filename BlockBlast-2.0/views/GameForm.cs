@@ -390,7 +390,7 @@ public partial class GameForm : Form
         if (fieldPanel == null) return;
 
         var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        controller.HighlightCells(clientPos, fieldPanel);
+        controller.HighlightCells(clientPos);
     }
 
     private void FieldPanel_DragDrop(object sender, DragEventArgs e)
@@ -399,17 +399,22 @@ public partial class GameForm : Form
         if (fieldPanel == null) return;
 
         var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        var shouldEndGame = controller.TryPlaceFigure(clientPos, fieldPanel);
+        var placementSuccessful = controller.TryPlaceFigure(clientPos);
 
-        if (shouldEndGame)
-        {
-            EndGame();
-            return;
-        }
+        if (!placementSuccessful)
+            return; 
 
         DrawPlayerFigures();
         UpdateScoreLabels();
-        EndTurn();
+
+        var shouldEndGame = !controller.CanPlayerPlaceAnyFigure(controller.CurrentPlayer) || 
+                            (controller.Players.Count > 1 && 
+                             !controller.Players.Any(p => controller.CanPlayerPlaceAnyFigure(p)));
+
+        if (shouldEndGame)
+            EndGame();
+        else
+            EndTurn();
     }
     
     private void EndGame()
