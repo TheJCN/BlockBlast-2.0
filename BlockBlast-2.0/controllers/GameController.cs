@@ -1,5 +1,4 @@
 using BlockBlast_2._0.models;
-using System.Drawing;
 using Timer = System.Windows.Forms.Timer;
 
 namespace BlockBlast_2._0.controllers;
@@ -154,7 +153,7 @@ public class GameController
     }
 
     public bool CanPlayerPlaceAnyFigure(Player player) => 
-        player.Figures.Any(figure => CanPlaceFigure(figure));
+        player.Figures.Any(CanPlaceFigure);
 
     private bool CanPlaceFigure(Figure figure)
     {
@@ -179,28 +178,19 @@ public class GameController
         };
         turnTimer.Tick += tickHandler;
 
-        if (timeLimit > 0)
-        {
-            timeLeft = timeLimit;
-            turnTimer.Start();
-        }
+        if (timeLimit <= 0) return;
+        timeLeft = timeLimit;
+        turnTimer.Start();
     }
 
     public void UpdateTimer()
     {
         timeLeft--;
         if (timeLeft <= 0)
-        {
             turnTimer.Stop();
-        }
     }
 
-    public string GetTimeText()
-    {
-        return timeLimit > 0 
-            ? $"Осталось времени: {timeLeft} сек." 
-            : "Время на ход не ограничено";
-    }
+    public string GetTimeText() => timeLimit > 0 ? $"Осталось времени: {timeLeft} сек." : "Время на ход не ограничено";
 
     public Color GetTimeLabelColor() => timeLeft <= 5 ? Color.Red : Color.White;
 
@@ -208,11 +198,9 @@ public class GameController
 
     public void ResetTimer()
     {
-        if (timeLimit > 0)
-        {
-            timeLeft = timeLimit;
-            turnTimer.Start();
-        }
+        if (timeLimit <= 0) return;
+        timeLeft = timeLimit;
+        turnTimer.Start();
     }
 
     public void StopTimer()
@@ -226,13 +214,12 @@ public class GameController
         isDragging = true;
     }
 
-    public void EndDragging()
+    private void EndDragging()
     {
-        currentDraggingFigure = null;
+        currentDraggingFigure = null!;
         isDragging = false;
     }
-
-    public Figure GetCurrentDraggingFigure() => currentDraggingFigure;
+    
 
     public void HighlightCells(Point clientPos, Panel fieldPanel)
     {
@@ -245,9 +232,7 @@ public class GameController
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
         }
-                
-        if (currentDraggingFigure == null) return;
-                
+
         foreach (var pix in currentDraggingFigure.Pixels)
         {
             var x = row + pix.X;
@@ -263,8 +248,6 @@ public class GameController
 
     public bool TryPlaceFigure(Point clientPos, Panel fieldPanel)
     {
-        if (currentDraggingFigure == null) return false;
-
         var cellSize = cells[0, 0].Width + 2;
         var row = clientPos.Y / cellSize;
         var col = clientPos.X / cellSize;
@@ -283,29 +266,18 @@ public class GameController
         CheckAndClearLines();
                 
         if (CurrentPlayer.Figures.Count == 0)
-        {
             CurrentPlayer.GenerateFigures();
-        }
-            
-        if (Players.Count > 1)
-        {
-            var canAnyPlayerMove = Players.Any(p => CanPlayerPlaceAnyFigure(p));
 
-            if (!canAnyPlayerMove)
-            {
-                return true; // Game should end
-            }
-        }
+        if (Players.Count <= 1) return false;
+        var canAnyPlayerMove = Players.Any(CanPlayerPlaceAnyFigure);
 
-        return false;
+        return !canAnyPlayerMove;
     }
 
     public string GetEndGameMessage()
     {
         if (Players.Count == 1)
-        {
             return $"Игра окончена! Ваш счет: {Players[0].Score}";
-        }
         
         var winner = Players.OrderByDescending(p => p.Score).FirstOrDefault();
         var winnerText = Players.GroupBy(p => p.Score).Count() == 1 
@@ -318,24 +290,11 @@ public class GameController
         return $"{winnerText}\n{scores}";
     }
 
-    public string GetCurrentPlayerText()
-    {
-        var currentPlayer = CurrentPlayer;
-        var playerIndex = Players.IndexOf(currentPlayer) + 1;
-        var playerColor = Color.FromArgb(currentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb());
-        
-        return $"Сейчас ходит: Игрок {playerIndex}";
-    }
+    public string GetCurrentPlayerText() => $"Сейчас ходит: Игрок {Players.IndexOf(CurrentPlayer) + 1}";
 
-    public Color GetCurrentPlayerPanelColor()
-    {
-        var currentPlayer = CurrentPlayer;
-        var playerColor = Color.FromArgb(currentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb());
-        return Color.FromArgb(80, playerColor);
-    }
+    public Color GetCurrentPlayerPanelColor() => Color.FromArgb(80, Color.FromArgb(CurrentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb()));
 
-    public string GetPlayerScoreText(int playerIndex)
-    {
-        return $"Очки: {Players[playerIndex].Score}";
-    }
+    public string GetPlayerScoreText(int playerIndex) => $"Очки: {Players[playerIndex].Score}";
+    
+    public int GetTimeLimit() => timeLimit;
 }

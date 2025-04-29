@@ -1,18 +1,6 @@
 namespace BlockBlast_2._0.models;
 
-public class Figure
+public class Figure(Pixel[] pixels)
 {
-    public Pixel[] Pixels { get; }
-
-    public Figure(Pixel[] pixels)
-    {
-        Pixels = pixels;
-    }
-        
-    public Size GetSize()
-    {
-        var maxX = Pixels.Max(p => p.X);
-        var maxY = Pixels.Max(p => p.Y);
-        return new Size(maxX + 1, maxY + 1);
-    }
+    public Pixel[] Pixels { get; } = pixels;
 }

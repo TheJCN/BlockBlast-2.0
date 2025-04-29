@@ -13,6 +13,9 @@
       <Compile Update="views\MenuForm.cs">
         <SubType>Form</SubType>
       </Compile>
+      <Compile Update="views\LeaderboardForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>

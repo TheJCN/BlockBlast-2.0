@@ -167,11 +167,11 @@ namespace BlockBlast_2._0.views
             gameForm.Show();
             Hide();
         }
-
+        
         private void ShowLeaderboard()
         {
-            MessageBox.Show("Таблица лидеров пока недоступна", "В разработке", 
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var leaderboardForm = new LeaderboardForm();
+            leaderboardForm.ShowDialog();
         }
     }
 }

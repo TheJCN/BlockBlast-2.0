@@ -1,7 +1,7 @@
 using BlockBlast_2._0.controllers;
 using BlockBlast_2._0.models;
 
-namespace BlockBlast_2._0;
+namespace BlockBlast_2._0.views;
 
 public partial class GameForm : Form
 {
@@ -114,14 +114,11 @@ public partial class GameForm : Form
         fieldPanel.DragOver += FieldPanel_DragOver;
         fieldPanel.DragDrop += FieldPanel_DragDrop;
         Controls.Add(fieldPanel);
-            
-        // Add cells to the field panel
+        
         var cells = controller.GetCells();
         for (var row = 0; row < GridSize; row++)
         for (var col = 0; col < GridSize; col++)
-        {
             fieldPanel.Controls.Add(cells[row, col]);
-        }
 
         UpdateLayout();
     }
@@ -414,15 +411,24 @@ public partial class GameForm : Form
         UpdateScoreLabels();
         EndTurn();
     }
-
+    
     private void EndGame()
     {
         controller.StopTimer();
+        
+        var leaderboardController = new LeaderboardController();
+        foreach (var player in controller.Players)
+            leaderboardController.AddEntry(
+                $"Игрок {controller.Players.IndexOf(player) + 1}", 
+                player.Score, 
+                playerCount, 
+                controller.IsTimeUp() ? 0 : controller.GetTimeLimit());
+    
         MessageBox.Show(controller.GetEndGameMessage(),
             "Конец игры",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
-                
+            
         Close();
     }
 
