@@ -65,7 +65,7 @@ public class GameController
             player.GenerateFigures();
     }
 
-    private bool PlaceFigure(Figure figure, int baseRow, int baseCol)
+    public bool PlaceFigure(Figure figure, int baseRow, int baseCol)
     {
         foreach (var pix in figure.Pixels)
         {
@@ -89,7 +89,7 @@ public class GameController
         return true;
     }
 
-    private void CheckAndClearLines()
+    public void CheckAndClearLines()
     {
         var linesCleared = 0;
                 
@@ -155,7 +155,7 @@ public class GameController
     public bool CanPlayerPlaceAnyFigure(Player player) => 
         player.Figures.Any(CanPlaceFigure);
 
-    private bool CanPlaceFigure(Figure figure)
+    public bool CanPlaceFigure(Figure figure)
     {
         for (var row = 0; row < gridSize; row++)
         for (var col = 0; col < gridSize; col++)
@@ -293,4 +293,5 @@ public class GameController
     public string GetPlayerScoreText(int playerIndex) => $"Очки: {Players[playerIndex].Score}";
     
     public int GetTimeLimit() => timeLimit;
+    public int GetTimeLeft() => timeLeft;
 }

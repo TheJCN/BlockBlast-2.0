@@ -6,7 +6,7 @@ public class Player
 {
     public List<Figure> Figures { get; }
     public int Score { get; private set; }
-    private int Color { get; }
+    public int Color { get; }
 
     public Player(int color)
     {
