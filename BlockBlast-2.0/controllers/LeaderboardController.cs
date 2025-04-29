@@ -6,13 +6,8 @@ namespace BlockBlast_2._0.controllers;
 public class LeaderboardController
 {
     private const string LeaderboardFile = "leaderboard.json";
-    private List<LeaderboardEntry> _entries;
-
-    public LeaderboardController()
-    {
-        _entries = LoadLeaderboard();
-    }
-
+    private readonly List<LeaderboardEntry> _entries = LoadLeaderboard();
+    private readonly JsonSerializerOptions _serializerOptions = new() { WriteIndented = true };
     public void AddEntry(string playerName, int score, int playerCount, int timeLimit)
     {
         _entries.Add(new LeaderboardEntry
@@ -35,7 +30,7 @@ public class LeaderboardController
             .Take(10)
             .ToList();
 
-    private List<LeaderboardEntry> LoadLeaderboard()
+    private static List<LeaderboardEntry> LoadLeaderboard()
     {
         if (!File.Exists(LeaderboardFile))
             return [];
@@ -52,8 +47,7 @@ public class LeaderboardController
 
     private void SaveLeaderboard()
     {
-        var options = new JsonSerializerOptions { WriteIndented = true };
-        var json = JsonSerializer.Serialize(_entries, options);
+        var json = JsonSerializer.Serialize(_entries, _serializerOptions);
         File.WriteAllText(LeaderboardFile, json);
     }
 }
