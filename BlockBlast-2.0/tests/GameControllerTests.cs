@@ -7,21 +7,21 @@ namespace BlockBlast_2._0.tests;
 public class GameControllerTests
 {
     private GameController _controller;
-    private int _gridSize = 10;
-    private int _timeLimit = 30;
+    private const int GridSize = 10;
+    private const int TimeLimit = 30;
 
     [SetUp]
     public void Setup()
     {
-        _controller = new GameController(2, _gridSize, _timeLimit);
+        _controller = new GameController(2, GridSize, TimeLimit);
     }
 
     [Test]
     public void GameController_Constructor_InitializesCorrectly()
     {
         Assert.AreEqual(2, _controller.Players.Count);
-        Assert.AreEqual(_gridSize, _controller.GetCells().GetLength(0));
-        Assert.AreEqual(_gridSize, _controller.GetCells().GetLength(1));
+        Assert.AreEqual(GridSize, _controller.GetCells().GetLength(0));
+        Assert.AreEqual(GridSize, _controller.GetCells().GetLength(1));
         Assert.AreEqual(_controller.Players[0], _controller.CurrentPlayer);
     }
 
@@ -42,7 +42,7 @@ public class GameControllerTests
     {
         var figure = _controller.CurrentPlayer.Figures[0];
         
-        var result = _controller.PlaceFigure(figure, _gridSize, _gridSize);
+        var result = _controller.PlaceFigure(figure, GridSize, GridSize);
         
         Assert.IsFalse(result);
     }
@@ -61,7 +61,7 @@ public class GameControllerTests
     public void CheckAndClearLines_AddsScore_WhenLineIsCleared()
     {
         var cells = _controller.GetCells();
-        for (var i = 0; i < _gridSize; i++)
+        for (var i = 0; i < GridSize; i++)
             cells[0, i].BackColor = Color.FromArgb(_controller.CurrentPlayer.Figures[0].Pixels[0].Color);
         var initialScore = _controller.CurrentPlayer.Score;
         
@@ -83,8 +83,8 @@ public class GameControllerTests
     public void CanPlayerPlaceAnyFigure_ReturnsFalse_WhenNoPlacementsPossible()
     {
         var cells = _controller.GetCells();
-        for (var i = 0; i < _gridSize; i++)
-        for (var j = 0; j < _gridSize; j++)
+        for (var i = 0; i < GridSize; i++)
+        for (var j = 0; j < GridSize; j++)
             cells[i, j].BackColor = Color.Red;
         
         var result = _controller.CanPlayerPlaceAnyFigure(_controller.CurrentPlayer);
@@ -100,15 +100,15 @@ public class GameControllerTests
         _controller.InitializeTimer(handler);
         _controller.UpdateTimer(); 
         
-        StringAssert.Contains((_timeLimit - 1).ToString(), _controller.GetTimeText());
-        Assert.AreEqual(_timeLimit - 1, _controller.GetTimeLeft());
+        StringAssert.Contains((TimeLimit - 1).ToString(), _controller.GetTimeText());
+        Assert.AreEqual(TimeLimit - 1, _controller.GetTimeLeft());
     }
 
     [Test]
     public void GetTimeLabelColor_ReturnsRed_WhenTimeIsLow()
     {
-        _controller.InitializeTimer((sender, args) => { });
-        for (var i = 0; i < _timeLimit - 5; i++)
+        _controller.InitializeTimer((_, _) => { });
+        for (var i = 0; i < TimeLimit - 5; i++)
             _controller.UpdateTimer();
         
         var color = _controller.GetTimeLabelColor();
@@ -118,7 +118,7 @@ public class GameControllerTests
     [Test]
     public void GetEndGameMessage_ReturnsCorrectMessage_ForSinglePlayer()
     {
-        var singlePlayerController = new GameController(1, _gridSize, _timeLimit);
+        var singlePlayerController = new GameController(1, GridSize, TimeLimit);
         singlePlayerController.CurrentPlayer.AddScore(500);
         
         var message = singlePlayerController.GetEndGameMessage();

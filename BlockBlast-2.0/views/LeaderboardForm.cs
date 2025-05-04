@@ -56,7 +56,7 @@ public partial class LeaderboardForm : Form
         }
     }
 
-    private string GetPlayerTabText(int playerCount)
+    private static string GetPlayerTabText(int playerCount)
     {
         return playerCount switch
         {

@@ -6,21 +6,24 @@ namespace BlockBlast_2._0.controllers;
 public class GameController
 {
     public List<Player> Players { get; }
-    private int currentPlayerIndex;
-    private int gridSize;
-    private Panel[,] cells;
-    private int timeLeft;
-    private int timeLimit;
-    private Timer turnTimer;
-    private Figure currentDraggingFigure;
-    private bool isDragging;
+    private int _currentPlayerIndex;
+    private readonly int _gridSize;
+    private readonly Panel[,] _cells;
+    private int _timeLeft;
+    private readonly int _timeLimit;
+    private Timer _turnTimer = null!;
+    private Figure _currentDraggingFigure = null!;
+    private bool _isDragging;
+
+    public event EventHandler OnFigurePlaced = null!;
+    public event EventHandler OnTurnEnded = null!;
 
     public GameController(int playerCount, int gridSize, int timeLimit)
     {
         Players = [];
-        this.gridSize = gridSize;
-        this.timeLimit = timeLimit;
-        cells = new Panel[gridSize, gridSize];
+        _gridSize = gridSize;
+        _timeLimit = timeLimit;
+        _cells = new Panel[gridSize, gridSize];
         InitializeCells();
             
         var colors = new[]
@@ -34,15 +37,45 @@ public class GameController
             Players.Add(new Player(playerColor));
         }
             
-        currentPlayerIndex = 0;
+        _currentPlayerIndex = 0;
+    }
+
+    public void SetupDragDropHandlers(Panel fieldPanel)
+    {
+        fieldPanel.DragEnter += (_, e) => e.Effect = DragDropEffects.Copy;
+        fieldPanel.DragOver += HandleDragOver!;
+        fieldPanel.DragDrop += HandleDragDrop!;
+    }
+
+    private void HandleDragOver(object sender, DragEventArgs e)
+    {
+        if (!_isDragging) return;
+
+        if (sender is not Panel fieldPanel) return;
+
+        var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
+        HighlightCells(clientPos);
+    }
+
+    private void HandleDragDrop(object sender, DragEventArgs e)
+    {
+        if (!_isDragging) return;
+
+        if (sender is not Panel fieldPanel) return;
+
+        var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
+        var placementSuccessful = TryPlaceFigure(clientPos);
+
+        if (placementSuccessful)
+            OnFigurePlaced(this, EventArgs.Empty);
     }
 
     private void InitializeCells()
     {
-        for (var row = 0; row < gridSize; row++)
-        for (var col = 0; col < gridSize; col++)
+        for (var row = 0; row < _gridSize; row++)
+        for (var col = 0; col < _gridSize; col++)
         {
-            cells[row, col] = new Panel
+            _cells[row, col] = new Panel
             {
                 BackColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle
@@ -50,13 +83,14 @@ public class GameController
         }
     }
 
-    public Panel[,] GetCells() => cells;
+    public Panel[,] GetCells() => _cells;
 
-    public Player CurrentPlayer => Players[currentPlayerIndex];
+    public Player CurrentPlayer => Players[_currentPlayerIndex];
 
     public void NextPlayer()
     {
-        currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
+        _currentPlayerIndex = (_currentPlayerIndex + 1) % Players.Count;
+        OnTurnEnded.Invoke(this, EventArgs.Empty);
     }
 
     public void GenerateFigures()
@@ -72,10 +106,10 @@ public class GameController
             var x = baseRow + pix.X;
             var y = baseCol + pix.Y;
 
-            if (x < 0 || x >= gridSize || y < 0 || y >= gridSize)
+            if (x < 0 || x >= _gridSize || y < 0 || y >= _gridSize)
                 return false;
 
-            if (cells[x, y].BackColor != Color.White)
+            if (_cells[x, y].BackColor != Color.White)
                 return false;
         }
                 
@@ -83,7 +117,7 @@ public class GameController
         {
             var x = baseRow + pix.X;
             var y = baseCol + pix.Y;
-            cells[x, y].BackColor = Color.FromArgb(pix.Color);
+            _cells[x, y].BackColor = Color.FromArgb(pix.Color);
         }
 
         return true;
@@ -93,15 +127,15 @@ public class GameController
     {
         var linesCleared = 0;
                 
-        for (var i = 0; i < gridSize; i++)
+        for (var i = 0; i < _gridSize; i++)
         {
             var isRowFull = true;
             var isColFull = true;
 
-            for (var j = 0; j < gridSize; j++)
+            for (var j = 0; j < _gridSize; j++)
             {
-                if (cells[i, j].BackColor == Color.White) isRowFull = false;
-                if (cells[j, i].BackColor == Color.White) isColFull = false;
+                if (_cells[i, j].BackColor == Color.White) isRowFull = false;
+                if (_cells[j, i].BackColor == Color.White) isColFull = false;
             }
 
             if (isRowFull)
@@ -120,10 +154,10 @@ public class GameController
         var isDiagonal1Full = true;
         var isDiagonal2Full = true;
 
-        for (var i = 0; i < gridSize; i++)
+        for (var i = 0; i < _gridSize; i++)
         {
-            if (cells[i, i].BackColor == Color.White) isDiagonal1Full = false;
-            if (cells[i, gridSize - i - 1].BackColor == Color.White) isDiagonal2Full = false;
+            if (_cells[i, i].BackColor == Color.White) isDiagonal1Full = false;
+            if (_cells[i, _gridSize - i - 1].BackColor == Color.White) isDiagonal2Full = false;
         }
 
         if (isDiagonal1Full)
@@ -135,7 +169,7 @@ public class GameController
         if (isDiagonal2Full)
         {
             linesCleared++;
-            ClearLine(0, gridSize - 1, 1, -1);
+            ClearLine(0, _gridSize - 1, 1, -1);
         }
                 
         var score = linesCleared * 100;
@@ -144,11 +178,11 @@ public class GameController
 
     private void ClearLine(int startX, int startY, int stepX, int stepY)
     {
-        for (var i = 0; i < gridSize; i++)
+        for (var i = 0; i < _gridSize; i++)
         {
             var x = startX + i * stepX;
             var y = startY + i * stepY;
-            cells[x, y].BackColor = Color.White;
+            _cells[x, y].BackColor = Color.White;
         }
     }
 
@@ -157,13 +191,13 @@ public class GameController
 
     public bool CanPlaceFigure(Figure figure)
     {
-        for (var row = 0; row < gridSize; row++)
-        for (var col = 0; col < gridSize; col++)
+        for (var row = 0; row < _gridSize; row++)
+        for (var col = 0; col < _gridSize; col++)
         {
             var canPlace = !(from pix in figure.Pixels 
                             let x = row + pix.X 
                             let y = col + pix.Y 
-                            where x < 0 || x >= gridSize || y < 0 || y >= gridSize || cells[x, y].BackColor != Color.White 
+                            where x < 0 || x >= _gridSize || y < 0 || y >= _gridSize || _cells[x, y].BackColor != Color.White 
                             select x).Any();
             if (canPlace) return true;
         }
@@ -172,95 +206,94 @@ public class GameController
 
     public void InitializeTimer(EventHandler tickHandler)
     {
-        turnTimer = new Timer
+        _turnTimer = new Timer
         {
             Interval = 1000
         };
-        turnTimer.Tick += tickHandler;
+        _turnTimer.Tick += tickHandler;
 
-        if (timeLimit <= 0) return;
-        timeLeft = timeLimit;
-        turnTimer.Start();
+        if (_timeLimit <= 0) return;
+        _timeLeft = _timeLimit;
+        _turnTimer.Start();
     }
 
     public void UpdateTimer()
     {
-        timeLeft--;
-        if (timeLeft <= 0)
-            turnTimer.Stop();
+        _timeLeft--;
+        if (_timeLeft <= 0)
+            _turnTimer.Stop();
     }
 
-    public string GetTimeText() => timeLimit > 0 ? $"Осталось времени: {timeLeft} сек." : "Время на ход не ограничено";
+    public string GetTimeText() => _timeLimit > 0 ? $"Осталось времени: {_timeLeft} сек." : "Время на ход не ограничено";
 
-    public Color GetTimeLabelColor() => timeLeft <= 5 ? Color.Red : Color.White;
+    public Color GetTimeLabelColor() => _timeLeft <= 5 ? Color.Red : Color.White;
 
-    public bool IsTimeUp() => timeLimit > 0 && timeLeft <= 0;
+    public bool IsTimeUp() => _timeLimit > 0 && _timeLeft <= 0;
 
     public void ResetTimer()
     {
-        if (timeLimit <= 0) return;
-        timeLeft = timeLimit;
-        turnTimer.Start();
+        if (_timeLimit <= 0) return;
+        _timeLeft = _timeLimit;
+        _turnTimer.Start();
     }
 
     public void StopTimer()
     {
-        turnTimer.Stop();
+        _turnTimer.Stop();
     }
 
     public void StartDragging(Figure figure)
     {
-        currentDraggingFigure = figure;
-        isDragging = true;
+        _currentDraggingFigure = figure;
+        _isDragging = true;
     }
 
     private void EndDragging()
     {
-        currentDraggingFigure = null!;
-        isDragging = false;
+        _currentDraggingFigure = null!;
+        _isDragging = false;
     }
-    
 
-    public void HighlightCells(Point clientPos)
+    private void HighlightCells(Point clientPos)
     {
-        var cellSize = cells[0, 0].Width + 2;
+        var cellSize = _cells[0, 0].Width + 2;
         var row = clientPos.Y / cellSize;
         var col = clientPos.X / cellSize;
                 
-        foreach (var cell in cells)
+        foreach (var cell in _cells)
         {
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
         }
 
-        foreach (var pix in currentDraggingFigure.Pixels)
+        foreach (var pix in _currentDraggingFigure.Pixels)
         {
             var x = row + pix.X;
             var y = col + pix.Y;
 
-            if (x < 0 || x >= gridSize || y < 0 || y >= gridSize) 
+            if (x < 0 || x >= _gridSize || y < 0 || y >= _gridSize) 
                 continue;
 
-            if (cells[x, y].BackColor == Color.White)
-                cells[x, y].BackColor = Color.LightGreen;
+            if (_cells[x, y].BackColor == Color.White)
+                _cells[x, y].BackColor = Color.LightGreen;
         }
     }
 
     public bool TryPlaceFigure(Point clientPos)
     {
-        var cellSize = cells[0, 0].Width + 2;
+        var cellSize = _cells[0, 0].Width + 2;
         var row = clientPos.Y / cellSize;
         var col = clientPos.X / cellSize;
             
-        foreach (var cell in cells)
+        foreach (var cell in _cells)
             if (cell.BackColor == Color.LightGreen)
                 cell.BackColor = Color.White;
 
-        var placed = PlaceFigure(currentDraggingFigure, row, col);
+        var placed = PlaceFigure(_currentDraggingFigure, row, col);
 
         if (!placed) return false;
 
-        CurrentPlayer.RemoveFigure(currentDraggingFigure);
+        CurrentPlayer.RemoveFigure(_currentDraggingFigure);
         EndDragging();
 
         CheckAndClearLines();
@@ -270,6 +303,7 @@ public class GameController
 
         return true; 
     }
+
     public string GetEndGameMessage()
     {
         if (Players.Count == 1)
@@ -278,7 +312,7 @@ public class GameController
         var winner = Players.OrderByDescending(p => p.Score).FirstOrDefault();
         var winnerText = Players.GroupBy(p => p.Score).Count() == 1 
             ? "Ничья!" 
-            : $"Победитель: Игрок {Players.IndexOf(winner) + 1}";
+            : $"Победитель: Игрок {Players.IndexOf(winner!) + 1}";
 
         var scores = string.Join("\n", Players.Select((p, i) => 
             $"Игрок {i + 1}: {p.Score} очков"));
@@ -292,6 +326,6 @@ public class GameController
 
     public string GetPlayerScoreText(int playerIndex) => $"Очки: {Players[playerIndex].Score}";
     
-    public int GetTimeLimit() => timeLimit;
-    public int GetTimeLeft() => timeLeft;
+    public int GetTimeLimit() => _timeLimit;
+    public int GetTimeLeft() => _timeLeft;
 }

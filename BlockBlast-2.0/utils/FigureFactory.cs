@@ -13,9 +13,13 @@ public static class FigureFactory
         // Квадрат 2x2
         new[] { new Pixel(color, 0, 0), new Pixel(color, 1, 0), new Pixel(color, 0, 1), new Pixel(color, 1, 1) },
 
-        // Линии
+        // Линии 4
         new[] { new Pixel(color, 0, 0), new Pixel(color, 1, 0), new Pixel(color, 2, 0), new Pixel(color, 3, 0) }, // Горизонталь
         new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2), new Pixel(color, 0, 3) }, // Вертикаль
+        
+        // Линии 3
+        new[] { new Pixel(color, 0, 0), new Pixel(color, 1, 0), new Pixel(color, 2, 0) }, // Горизонталь
+        new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2) }, // Вертикаль
 
         // L-образные (4 поворота)
         new[] { new Pixel(color, 0, 0), new Pixel(color, 0, 1), new Pixel(color, 0, 2), new Pixel(color, 1, 2) },

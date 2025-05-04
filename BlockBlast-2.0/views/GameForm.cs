@@ -6,18 +6,18 @@ namespace BlockBlast_2._0.views;
 public partial class GameForm : Form
 {
     private const int GridSize = 10;
-    private List<Panel> playerPanels = [];
-    private List<Panel> figurePanels = [];
-    private GameController controller;
-    private int playerCount;
-    private Label timeLabel;
+    private readonly List<Panel> _playerPanels = [];
+    private readonly List<Panel> _figurePanels = [];
+    private readonly GameController _controller;
+    private readonly int _playerCount;
+    private Label _timeLabel = null!;
 
     public GameForm(int playerCount, int timeLimit)
     {
-        this.playerCount = playerCount;
+        _playerCount = playerCount;
             
         InitializeComponent();
-        controller = new GameController(playerCount, GridSize, timeLimit);
+        _controller = new GameController(playerCount, GridSize, timeLimit);
         SetupPreStartSetting();
         Resize += (_, _) =>
         {
@@ -33,25 +33,25 @@ public partial class GameForm : Form
 
     private void InitializeTimer()
     {
-        controller.InitializeTimer(TurnTimer_Tick);
-        timeLabel.Text = controller.GetTimeText();
-        timeLabel.ForeColor = controller.GetTimeLabelColor();
+        _controller.InitializeTimer(TurnTimer_Tick!);
+        _timeLabel.Text = _controller.GetTimeText();
+        _timeLabel.ForeColor = _controller.GetTimeLabelColor();
     }
 
     private void TurnTimer_Tick(object sender, EventArgs e)
     {
-        controller.UpdateTimer();
-        timeLabel.Text = controller.GetTimeText();
-        timeLabel.ForeColor = controller.GetTimeLabelColor();
+        _controller.UpdateTimer();
+        _timeLabel.Text = _controller.GetTimeText();
+        _timeLabel.ForeColor = _controller.GetTimeLabelColor();
 
-        if (!controller.IsTimeUp()) return;
+        if (!_controller.IsTimeUp()) return;
         MessageBox.Show("Время на ход истекло! Ход переходит к следующему игроку.");
         EndTurn();
     }
 
     private void SetupPreStartSetting()
     {
-        Text = $"BlockBlast 2.0 - {playerCount} игрока(ов)";
+        Text = $"BlockBlast 2.0 - {_playerCount} игрока(ов)";
         ClientSize = new Size(1280, 720);
         StartPosition = FormStartPosition.CenterScreen;
         BackColor = Color.DimGray;
@@ -61,7 +61,7 @@ public partial class GameForm : Form
     {
         var titleLabel = new Label
         {
-            Text = $"BlockBlast 2.0 - {playerCount} игрока(ов)",
+            Text = $"BlockBlast 2.0 - {_playerCount} игрока(ов)",
             Font = new Font("Segoe UI", 24, FontStyle.Bold),
             ForeColor = Color.White,
             AutoSize = false,
@@ -71,7 +71,7 @@ public partial class GameForm : Form
         };
         Controls.Add(titleLabel);
 
-        timeLabel = new Label
+        _timeLabel = new Label
         {
             Font = new Font("Segoe UI", 14, FontStyle.Bold),
             ForeColor = Color.White,
@@ -80,14 +80,14 @@ public partial class GameForm : Form
             Height = 40,
             BackColor = Color.FromArgb(70, 70, 70)
         };
-        Controls.Add(timeLabel);
+        Controls.Add(_timeLabel);
 
         var currentPlayerPanel = new Panel
         {
             Name = "currentPlayerPanel",
             Dock = DockStyle.Top,
             Height = 50,
-            BackColor = controller.GetCurrentPlayerPanelColor()
+            BackColor = _controller.GetCurrentPlayerPanelColor()
         };
 
         var currentPlayerLabel = new Label
@@ -97,7 +97,7 @@ public partial class GameForm : Form
             TextAlign = ContentAlignment.MiddleCenter,
             Font = new Font("Segoe UI", 14, FontStyle.Bold),
             ForeColor = Color.White,
-            Text = controller.GetCurrentPlayerText()
+            Text = _controller.GetCurrentPlayerText()
         };
         currentPlayerPanel.Controls.Add(currentPlayerLabel);
         Controls.Add(currentPlayerPanel);
@@ -110,12 +110,25 @@ public partial class GameForm : Form
             BackColor = Color.LightSlateGray,
             AllowDrop = true
         };
-        fieldPanel.DragEnter += (_, e) => e.Effect = DragDropEffects.Copy;
-        fieldPanel.DragOver += FieldPanel_DragOver;
-        fieldPanel.DragDrop += FieldPanel_DragDrop;
+        _controller.SetupDragDropHandlers(fieldPanel);
+        _controller.OnFigurePlaced += (_, _) => 
+        {
+            DrawPlayerFigures();
+            UpdateScoreLabels();
+
+            var shouldEndGame = !_controller.CanPlayerPlaceAnyFigure(_controller.CurrentPlayer) || 
+                              (_controller.Players.Count > 1 && 
+                               !_controller.Players.Any(p => _controller.CanPlayerPlaceAnyFigure(p)));
+
+            if (shouldEndGame)
+                EndGame();
+            else
+                EndTurn();
+        };
+        _controller.OnTurnEnded += (_, _) => UpdateTurnLabel();
         Controls.Add(fieldPanel);
         
-        var cells = controller.GetCells();
+        var cells = _controller.GetCells();
         for (var row = 0; row < GridSize; row++)
         for (var col = 0; col < GridSize; col++)
             fieldPanel.Controls.Add(cells[row, col]);
@@ -125,14 +138,14 @@ public partial class GameForm : Form
 
     private void CreatePlayerPanels()
     {
-        foreach (var panel in playerPanels)
+        foreach (var panel in _playerPanels)
         {
             Controls.Remove(panel);
             panel.Dispose();
         }
-        playerPanels.Clear();
+        _playerPanels.Clear();
 
-        for (var i = 0; i < playerCount; i++)
+        for (var i = 0; i < _playerCount; i++)
         {
             var panel = new Panel 
             { 
@@ -161,7 +174,7 @@ public partial class GameForm : Form
             var scoreLabel = new Label
             {
                 Name = $"scoreLabel{i}",
-                Text = controller.GetPlayerScoreText(i),
+                Text = _controller.GetPlayerScoreText(i),
                 Dock = DockStyle.Bottom,
                 ForeColor = Color.White,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -174,7 +187,7 @@ public partial class GameForm : Form
             panel.Controls.Add(scoreLabel);
 
             Controls.Add(panel);
-            playerPanels.Add(panel);
+            _playerPanels.Add(panel);
         }
     }
 
@@ -184,7 +197,7 @@ public partial class GameForm : Form
         var totalHeight = ClientSize.Height;
             
         var topPanelHeight = Controls.OfType<Label>().First(l => l.Text.StartsWith("BlockBlast")).Height 
-                             + timeLabel.Height 
+                             + _timeLabel.Height 
                              + Controls.Find("currentPlayerPanel", true).First().Height;
 
         var fieldPanel = Controls.Find("fieldPanel", true).FirstOrDefault() as Panel;
@@ -202,33 +215,33 @@ public partial class GameForm : Form
         var playerPanelHeight = fieldSize / 2;
         var playerPanelWidth = (totalWidth - fieldSize) / 2;
 
-        if (playerCount == 4)
+        if (_playerCount == 4)
         {
-            playerPanels[0].Size = new Size(playerPanelWidth, playerPanelHeight);
-            playerPanels[0].Location = new Point(0, topPanelHeight + 10);
+            _playerPanels[0].Size = new Size(playerPanelWidth, playerPanelHeight);
+            _playerPanels[0].Location = new Point(0, topPanelHeight + 10);
                 
-            playerPanels[2].Size = new Size(playerPanelWidth, playerPanelHeight);
-            playerPanels[2].Location = new Point(0, topPanelHeight + 10 + playerPanelHeight);
+            _playerPanels[2].Size = new Size(playerPanelWidth, playerPanelHeight);
+            _playerPanels[2].Location = new Point(0, topPanelHeight + 10 + playerPanelHeight);
 
-            playerPanels[1].Size = new Size(playerPanelWidth, playerPanelHeight);
-            playerPanels[1].Location = new Point(totalWidth - playerPanelWidth, topPanelHeight + 10);
+            _playerPanels[1].Size = new Size(playerPanelWidth, playerPanelHeight);
+            _playerPanels[1].Location = new Point(totalWidth - playerPanelWidth, topPanelHeight + 10);
                 
-            playerPanels[3].Size = new Size(playerPanelWidth, playerPanelHeight);
-            playerPanels[3].Location = new Point(totalWidth - playerPanelWidth, topPanelHeight + 10 + playerPanelHeight);
+            _playerPanels[3].Size = new Size(playerPanelWidth, playerPanelHeight);
+            _playerPanels[3].Location = new Point(totalWidth - playerPanelWidth, topPanelHeight + 10 + playerPanelHeight);
         }
         else
         {
-            for (var i = 0; i < playerCount; i++)
+            for (var i = 0; i < _playerCount; i++)
             {
-                playerPanels[i].Size = new Size(playerPanelWidth, fieldSize);
-                playerPanels[i].Location = new Point(
+                _playerPanels[i].Size = new Size(playerPanelWidth, fieldSize);
+                _playerPanels[i].Location = new Point(
                     i % 2 == 0 ? 0 : totalWidth - playerPanelWidth,
                     topPanelHeight + 10);
             }
         }
 
         var cellSize = fieldSize / GridSize;
-        var cells = controller.GetCells();
+        var cells = _controller.GetCells();
             
         for (var row = 0; row < GridSize; row++)
         for (var col = 0; col < GridSize; col++)
@@ -245,33 +258,33 @@ public partial class GameForm : Form
         var currentPlayerLabel = currentPlayerPanel?.Controls.Find("currentPlayerLabel", true).FirstOrDefault() as Label;
         if (currentPlayerLabel == null) return;
             
-        currentPlayerLabel.Text = controller.GetCurrentPlayerText();
-        currentPlayerPanel.BackColor = controller.GetCurrentPlayerPanelColor();
+        currentPlayerLabel.Text = _controller.GetCurrentPlayerText();
+        currentPlayerPanel!.BackColor = _controller.GetCurrentPlayerPanelColor();
     }
 
     private void UpdateScoreLabels()
     {
-        for (var i = 0; i < playerCount; i++)
+        for (var i = 0; i < _playerCount; i++)
             if (Controls.Find($"scoreLabel{i}", true).FirstOrDefault() is Label scoreLabel)
-                scoreLabel.Text = controller.GetPlayerScoreText(i);
+                scoreLabel.Text = _controller.GetPlayerScoreText(i);
     }
 
     private void GenerateFigures()
     {
-        controller.GenerateFigures();
+        _controller.GenerateFigures();
         DrawPlayerFigures();
     }
 
     private void DrawPlayerFigures()
     {
-        foreach (var panel in figurePanels)
+        foreach (var panel in _figurePanels)
             panel.Dispose();
         
-        figurePanels.Clear();
+        _figurePanels.Clear();
 
-        for (var i = 0; i < playerCount; i++)
+        for (var i = 0; i < _playerCount; i++)
             if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
-                DrawFiguresForPlayer(controller.Players[i], figuresPanel);
+                DrawFiguresForPlayer(_controller.Players[i], figuresPanel);
     }
 
     private void DrawFiguresForPlayer(Player player, Panel targetPanel)
@@ -296,7 +309,7 @@ public partial class GameForm : Form
             figPanel.Top = startY + i * (figureHeight + 10);
             figPanel.Left = (targetPanel.Width - figPanel.Width) / 2;
             targetPanel.Controls.Add(figPanel);
-            figurePanels.Add(figPanel);
+            _figurePanels.Add(figPanel);
         }
     }
 
@@ -318,9 +331,9 @@ public partial class GameForm : Form
 
     private void RedrawPlayerFigures()
     {
-        for (var i = 0; i < playerCount; i++)
+        for (var i = 0; i < _playerCount; i++)
             if (Controls.Find($"figuresPanel{i}", true).FirstOrDefault() is Panel figuresPanel)
-                DrawFiguresForPlayer(controller.Players[i], figuresPanel);
+                DrawFiguresForPlayer(_controller.Players[i], figuresPanel);
     }
 
     private void DrawFigureIntoPanel(Panel panel, Figure fig, int panelSize, Player player)
@@ -350,11 +363,11 @@ public partial class GameForm : Form
             Tag = new Tuple<Figure, Player>(fig, player)
         };
         
-        figureContainer.MouseDown += (sender, e) =>
+        figureContainer.MouseDown += (_, e) =>
         {
             if (e.Button != MouseButtons.Left || figureContainer.Tag is not Tuple<Figure, Player> tuple) return;
-            if (controller.CurrentPlayer != tuple.Item2) return;
-            controller.StartDragging(tuple.Item1);
+            if (_controller.CurrentPlayer != tuple.Item2) return;
+            _controller.StartDragging(tuple.Item1);
             panel.DoDragDrop(tuple.Item1, DragDropEffects.Copy);
         };
 
@@ -370,11 +383,11 @@ public partial class GameForm : Form
                 Cursor = Cursors.Hand
             };
 
-            p.MouseDown += (sender, e) =>
+            p.MouseDown += (_, e) =>
             {
                 if (e.Button != MouseButtons.Left || figureContainer.Tag is not Tuple<Figure, Player> tuple) return;
-                if (controller.CurrentPlayer != tuple.Item2) return;
-                controller.StartDragging(tuple.Item1);
+                if (_controller.CurrentPlayer != tuple.Item2) return;
+                _controller.StartDragging(tuple.Item1);
                 panel.DoDragDrop(tuple.Item1, DragDropEffects.Copy);
             };
 
@@ -383,53 +396,20 @@ public partial class GameForm : Form
 
         panel.Controls.Add(figureContainer);
     }
-
-    private void FieldPanel_DragOver(object sender, DragEventArgs e)
-    {
-        var fieldPanel = Controls.Find("fieldPanel", true).FirstOrDefault() as Panel;
-        if (fieldPanel == null) return;
-
-        var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        controller.HighlightCells(clientPos);
-    }
-
-    private void FieldPanel_DragDrop(object sender, DragEventArgs e)
-    {
-        var fieldPanel = Controls.Find("fieldPanel", true).FirstOrDefault() as Panel;
-        if (fieldPanel == null) return;
-
-        var clientPos = fieldPanel.PointToClient(new Point(e.X, e.Y));
-        var placementSuccessful = controller.TryPlaceFigure(clientPos);
-
-        if (!placementSuccessful)
-            return; 
-
-        DrawPlayerFigures();
-        UpdateScoreLabels();
-
-        var shouldEndGame = !controller.CanPlayerPlaceAnyFigure(controller.CurrentPlayer) || 
-                            (controller.Players.Count > 1 && 
-                             !controller.Players.Any(p => controller.CanPlayerPlaceAnyFigure(p)));
-
-        if (shouldEndGame)
-            EndGame();
-        else
-            EndTurn();
-    }
     
     private void EndGame()
     {
-        controller.StopTimer();
+        _controller.StopTimer();
         
         var leaderboardController = new LeaderboardController();
-        foreach (var player in controller.Players)
+        foreach (var player in _controller.Players)
             leaderboardController.AddEntry(
-                $"Игрок {controller.Players.IndexOf(player) + 1}", 
+                $"Игрок {_controller.Players.IndexOf(player) + 1}", 
                 player.Score, 
-                playerCount, 
-                controller.IsTimeUp() ? 0 : controller.GetTimeLimit());
+                _playerCount, 
+                _controller.IsTimeUp() ? 0 : _controller.GetTimeLimit());
     
-        MessageBox.Show(controller.GetEndGameMessage(),
+        MessageBox.Show(_controller.GetEndGameMessage(),
             "Конец игры",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
@@ -439,22 +419,22 @@ public partial class GameForm : Form
 
     private void EndTurn()
     {
-        controller.ResetTimer();
-        timeLabel.Text = controller.GetTimeText();
-        timeLabel.ForeColor = controller.GetTimeLabelColor();
+        _controller.ResetTimer();
+        _timeLabel.Text = _controller.GetTimeText();
+        _timeLabel.ForeColor = _controller.GetTimeLabelColor();
                 
-        controller.NextPlayer();
+        _controller.NextPlayer();
         UpdateTurnLabel();
 
-        if (controller.CanPlayerPlaceAnyFigure(controller.CurrentPlayer)) return;
+        if (_controller.CanPlayerPlaceAnyFigure(_controller.CurrentPlayer)) return;
         MessageBox.Show("Игрок не может сделать ход. Ход переходит к следующему игроку.");
-        controller.NextPlayer();
+        _controller.NextPlayer();
         UpdateTurnLabel();
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
         base.OnFormClosing(e);
-        controller.StopTimer();
+        _controller.StopTimer();
     }
 }
