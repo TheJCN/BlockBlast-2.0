@@ -1,8 +1,6 @@
-
 using BlockBlast_2._0.models;
-using NUnit.Framework;
 
-namespace BlockBlast_2._0.tests;
+namespace BlockBlast_Test;
 
 [TestFixture]
 public class PixelTests
@@ -15,10 +13,11 @@ public class PixelTests
         const int y = 10;
             
         var pixel = new Pixel(color, x, y);
-            
-        
-        Assert.AreEqual(color, pixel.Color);
-        Assert.AreEqual(x, pixel.X);
-        Assert.AreEqual(y, pixel.Y);
+        Assert.Multiple(() =>
+        {
+            Assert.That(pixel.Color, Is.EqualTo(color));
+            Assert.That(pixel.X, Is.EqualTo(x));
+            Assert.That(pixel.Y, Is.EqualTo(y));
+        });
     }
 }

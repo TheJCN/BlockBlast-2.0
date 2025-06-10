@@ -1,7 +1,8 @@
+using System.Drawing;
 using BlockBlast_2._0.controllers;
-using NUnit.Framework;
+using static NUnit.Framework.Assert;
 
-namespace BlockBlast_2._0.tests;
+namespace BlockBlast_Test;
 
 [TestFixture]
 public class GameControllerTests
@@ -19,10 +20,13 @@ public class GameControllerTests
     [Test]
     public void GameController_Constructor_InitializesCorrectly()
     {
-        Assert.AreEqual(2, _controller.Players.Count);
-        Assert.AreEqual(GridSize, _controller.GetCells().GetLength(0));
-        Assert.AreEqual(GridSize, _controller.GetCells().GetLength(1));
-        Assert.AreEqual(_controller.Players[0], _controller.CurrentPlayer);
+        Multiple(() =>
+        {
+            That(_controller.Players, Has.Count.EqualTo(2));
+            That(_controller.GetCells().GetLength(0), Is.EqualTo(GridSize));
+            That(_controller.GetCells().GetLength(1), Is.EqualTo(GridSize));
+            That(_controller.CurrentPlayer, Is.EqualTo(_controller.Players[0]));
+        });
     }
 
     [Test]
@@ -30,11 +34,11 @@ public class GameControllerTests
     {
         _controller.NextPlayer();
         
-        Assert.AreEqual(_controller.Players[1], _controller.CurrentPlayer);
+        That(_controller.CurrentPlayer, Is.EqualTo(_controller.Players[1]));
         
         _controller.NextPlayer();
         
-        Assert.AreEqual(_controller.Players[0], _controller.CurrentPlayer);
+        That(_controller.CurrentPlayer, Is.EqualTo(_controller.Players[0]));
     }
 
     [Test]
@@ -43,8 +47,7 @@ public class GameControllerTests
         var figure = _controller.CurrentPlayer.Figures[0];
         
         var result = _controller.PlaceFigure(figure, GridSize, GridSize);
-        
-        Assert.IsFalse(result);
+        That(result, Is.False);
     }
 
     [Test]
@@ -53,8 +56,7 @@ public class GameControllerTests
         var figure = _controller.CurrentPlayer.Figures[0];
         
         var result = _controller.PlaceFigure(figure, 0, 0);
-        
-        Assert.IsTrue(result);
+        That(result, Is.True);
     }
 
     [Test]
@@ -66,17 +68,15 @@ public class GameControllerTests
         var initialScore = _controller.CurrentPlayer.Score;
         
         _controller.CheckAndClearLines();
-        
-        Assert.AreEqual(initialScore + 100, _controller.CurrentPlayer.Score);
+        That(_controller.CurrentPlayer.Score, Is.EqualTo(initialScore + 100));
     }
 
-    [Test]
+    [Test]      
     public void CanPlaceFigure_ReturnsTrue_WhenPlacementIsPossible()
     {
         var figure = _controller.CurrentPlayer.Figures[0];
         var result = _controller.CanPlaceFigure(figure);
-        
-        Assert.IsTrue(result);
+        That(result, Is.True);
     }
 
     [Test]
@@ -88,8 +88,7 @@ public class GameControllerTests
             cells[i, j].BackColor = Color.Red;
         
         var result = _controller.CanPlayerPlaceAnyFigure(_controller.CurrentPlayer);
-        
-        Assert.IsFalse(result);
+        That(result, Is.False);
     }
     
     [Test]
@@ -101,7 +100,7 @@ public class GameControllerTests
         _controller.UpdateTimer(); 
         
         StringAssert.Contains((TimeLimit - 1).ToString(), _controller.GetTimeText());
-        Assert.AreEqual(TimeLimit - 1, _controller.GetTimeLeft());
+        That(_controller.GetTimeLeft(), Is.EqualTo(TimeLimit - 1));
     }
 
     [Test]
@@ -112,7 +111,7 @@ public class GameControllerTests
             _controller.UpdateTimer();
         
         var color = _controller.GetTimeLabelColor();
-        Assert.AreEqual(Color.Red, color);
+        That(color, Is.EqualTo(Color.Red));
     }
 
     [Test]
@@ -148,7 +147,6 @@ public class GameControllerTests
         
         var result = _controller.TryPlaceFigure(invalidPosition);
         Console.WriteLine($"Result: {result}");
-        
-        Assert.IsFalse(result, "Метод должен возвращать false для позиции за пределами сетки");
+        That(result, Is.False, "Метод должен возвращать false для позиции за пределами сетки");
     }
 }

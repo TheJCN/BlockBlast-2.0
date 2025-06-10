@@ -1,7 +1,6 @@
-using NUnit.Framework;
 using BlockBlast_2._0.models;
 
-namespace BlockBlast_2._0.tests;
+namespace BlockBlast_Test;
 
 [TestFixture]
 public class PlayerTests
@@ -12,48 +11,51 @@ public class PlayerTests
         var color = 0xFF0000;
             
         var player = new Player(color);
-            
-        Assert.AreEqual(color, player.Color);
-        Assert.AreEqual(0, player.Score);
-        Assert.IsNotNull(player.Figures);
-        Assert.AreEqual(3, player.Figures.Count);
+        Assert.Multiple(() =>
+        {
+            Assert.That(player.Color, Is.EqualTo(color));
+            Assert.That(player.Score, Is.EqualTo(0));
+            Assert.That(player.Figures, Has.Count.EqualTo(3));
+            Assert.That(player.Figures, Is.Not.Null);
+        });
     }
 
     [Test]
     public void GenerateFigures_CreatesThreeFigures()
     {
-        var color = 0xFF0000;
+        const int color = 0xFF0000;
         var player = new Player(color);
             
         player.GenerateFigures();
             
-        Assert.AreEqual(3, player.Figures.Count);
-        Assert.IsTrue(player.Figures.All(f => f.Pixels.All(p => p.Color == color)));
+        Assert.That(player.Figures, Has.Count.EqualTo(3));
+        Assert.That(player.Figures.All(f => f.Pixels.All(p => p.Color == color)), Is.True);
     }
 
     [Test]
     public void RemoveFigure_RemovesFigureFromCollection()
     {
-        var color = 0xFF0000;
+        const int color = 0xFF0000;
         var player = new Player(color);
         var figureToRemove = player.Figures.First();
             
         player.RemoveFigure(figureToRemove);
             
-        Assert.AreEqual(2, player.Figures.Count);
-        Assert.IsFalse(player.Figures.Contains(figureToRemove));
+        Assert.That(player.Figures, Has.Count.EqualTo(2));
+        Assert.That(player.Figures, Does.Not.Contain(figureToRemove));
     }
 
     [Test]
     public void AddScore_IncreasesPlayerScore()
     {
-        var color = 0xFF0000;
+        const int color = 0xFF0000;
+        const int scoreToAdd = 100;
+        
         var player = new Player(color);
         var initialScore = player.Score;
-        var scoreToAdd = 100;
             
         player.AddScore(scoreToAdd);
             
-        Assert.AreEqual(initialScore + scoreToAdd, player.Score);
+        Assert.That(player.Score, Is.EqualTo(initialScore + scoreToAdd));
     }
 }

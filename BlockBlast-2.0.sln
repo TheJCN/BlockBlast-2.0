@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockBlast-2.0", "BlockBlast-2.0\BlockBlast-2.0.csproj", "{DAFDA705-775F-49BE-91D1-42E4B6AEA9A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockBlast-Test", "BlockBlast-Test\BlockBlast-Test.csproj", "{44105FB8-5C09-4A55-B956-E23A9ACD234F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{DAFDA705-775F-49BE-91D1-42E4B6AEA9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFDA705-775F-49BE-91D1-42E4B6AEA9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFDA705-775F-49BE-91D1-42E4B6AEA9A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44105FB8-5C09-4A55-B956-E23A9ACD234F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44105FB8-5C09-4A55-B956-E23A9ACD234F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44105FB8-5C09-4A55-B956-E23A9ACD234F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44105FB8-5C09-4A55-B956-E23A9ACD234F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

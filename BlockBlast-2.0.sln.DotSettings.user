@@ -5,12 +5,9 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AList_00601_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F2832e8c2b81f4641b3863f406ce3a519c90938_003F91_003Ff40bad6e_003FList_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AObject_002ECoreCLR_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F1bdc36dd4183e28bfc782d741e368f6faf4ad8397bd232ec65613e2373e_003FObject_002ECoreCLR_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATestAttribute_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fcfe23cda324d2a0ba326a98f5db71174e9c0d88dc5bb42588a77e8ba6405a_003FTestAttribute_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3b0012fb_002D6fb6_002D481a_002Db658_002D2d963676e31c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PixelTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0" Presentation="&amp;lt;BlockBlast-2.0&amp;gt;" /&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3b0012fb_002D6fb6_002D481a_002Db658_002D2d963676e31c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PixelTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-Test" Presentation="&amp;lt;BlockBlast-Test&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d52e353e_002D5765_002D483d_002Db37c_002De61b6862d306/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PixelTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DAFDA705-775F-49BE-91D1-42E4B6AEA9A5::net8.0-windows::BlockBlast_2._0.tests.PixelTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DAFDA705-775F-49BE-91D1-42E4B6AEA9A5::net8.0-windows::BlockBlast_2._0.tests.FigureTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d52e353e_002D5765_002D483d_002Db37c_002De61b6862d306/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PixelTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-Test" Presentation="&amp;lt;BlockBlast-Test&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

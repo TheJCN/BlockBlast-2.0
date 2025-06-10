@@ -1,7 +1,6 @@
 using BlockBlast_2._0.models;
-using NUnit.Framework;
 
-namespace BlockBlast_2._0.tests;
+namespace BlockBlast_Test;
 
 [TestFixture]
 public class FigureTests
@@ -18,7 +17,7 @@ public class FigureTests
         
         var figure = new Figure(pixels);
         
-        Assert.AreEqual(3, figure.Pixels.Length);
-        Assert.AreEqual(pixels, figure.Pixels);
+        Assert.That(figure.Pixels, Has.Length.EqualTo(3));
+        Assert.That(figure.Pixels, Is.EqualTo(pixels));
     }
 }
