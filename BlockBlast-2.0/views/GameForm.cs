@@ -1,5 +1,6 @@
 using BlockBlast_2._0.controllers;
 using BlockBlast_2._0.models;
+using BlockBlast_2._0.utils;
 
 namespace BlockBlast_2._0.views;
 
@@ -11,13 +12,23 @@ public partial class GameForm : Form
     private readonly GameController _controller;
     private readonly int _playerCount;
     private Label _timeLabel = null!;
+    
+    private MusicPlayerUtil musicPlayerUtil = new();
 
-    public GameForm(int playerCount, int timeLimit)
+    private readonly bool _musicEnabled;
+    private readonly bool _soundEnabled;
+
+    public GameForm(int playerCount, int timeLimit, bool _musicEnabled, bool _soundEnabled)
     {
-        _playerCount = playerCount;
-            
         InitializeComponent();
-        _controller = new GameController(playerCount, GridSize, timeLimit);
+        _playerCount = playerCount;
+        _musicEnabled = _musicEnabled;
+        _soundEnabled = _soundEnabled;
+        
+        if (_musicEnabled)
+            Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+        
+        _controller = new GameController(playerCount, GridSize, timeLimit, _soundEnabled);
         SetupPreStartSetting();
         Resize += (_, _) =>
         {

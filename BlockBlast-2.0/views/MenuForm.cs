@@ -1,14 +1,30 @@
+using System.Runtime.InteropServices.JavaScript;
+using BlockBlast_2._0.utils;
+
 namespace BlockBlast_2._0.views;
 
 public partial class MenuForm : Form
 {
     private ComboBox? _timeComboBox;
     private int _selectedTimeLimit;
+    
+    private MusicPlayerUtil musicPlayerUtil = new();
+    private bool _musicEnabled = true;
+    
+    private bool _soundEnabled = true;
+
 
     public MenuForm()
     {
         InitializeMenu();
+
+        if (_musicEnabled)
+            Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+    
+        if (_soundEnabled)
+            Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\start.wav"));
     }
+
 
     private void InitializeMenu()
     {
@@ -99,6 +115,62 @@ public partial class MenuForm : Form
         buttonsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
         buttonsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
 
+        var soundToggleBtn = new Button
+        {
+            Text = "Звуки: Вкл",
+            Font = new Font("Segoe UI", 10),
+            ForeColor = Color.White,
+            BackColor = Color.FromArgb(80, 80, 80),
+            FlatStyle = FlatStyle.Flat,
+            Size = new Size(150, 40),
+            Location = new Point(400, 15)
+        };
+
+        soundToggleBtn.FlatAppearance.BorderSize = 0;
+        soundToggleBtn.Click += (sender, args) =>
+        {
+            _soundEnabled = !_soundEnabled;
+            
+            if (_soundEnabled)
+            {
+                Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\blast.wav"));
+                soundToggleBtn.Text = "Звуки: Вкл";
+            }
+            else
+                soundToggleBtn.Text = "Звуки: Выкл";
+        };
+        
+        var musicToggleBtn = new Button
+        {
+            Text = "Музыка: Вкл",
+            Font = new Font("Segoe UI", 10),
+            ForeColor = Color.White,
+            BackColor = Color.FromArgb(80, 80, 80),
+            FlatStyle = FlatStyle.Flat,
+            Size = new Size(150, 40),
+            Location = new Point(600, 15)
+        };
+
+        musicToggleBtn.FlatAppearance.BorderSize = 0;
+        musicToggleBtn.Click += (sender, args) =>
+        {
+            _musicEnabled = !_musicEnabled;
+            
+            if (_musicEnabled)
+            {
+                Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+                musicToggleBtn.Text = "Музыка: Вкл";
+            }
+            else
+            {
+                musicPlayerUtil.Stop();
+                musicToggleBtn.Text = "Музыка: Выкл";
+            }
+        };
+
+        settingsPanel.Controls.Add(musicToggleBtn);
+        settingsPanel.Controls.Add(soundToggleBtn);
+
         Controls.Add(buttonsPanel);
         Controls.Add(settingsPanel);
         Controls.Add(titleLabel);
@@ -140,7 +212,7 @@ public partial class MenuForm : Form
     private void MenuButton_Click(object sender, EventArgs e)
     {
         if (sender is not Button button) return;
-
+        musicPlayerUtil.Stop();
         switch ((int)button.Tag!)
         {
             case 0:
@@ -160,7 +232,7 @@ public partial class MenuForm : Form
 
     private void StartGame(int playerCount, int timeLimit)
     {
-        var gameForm = new GameForm(playerCount, timeLimit);
+        var gameForm = new GameForm(playerCount, timeLimit, _musicEnabled, _soundEnabled);
         gameForm.Show();
         Hide();
     }

@@ -1,4 +1,5 @@
 using BlockBlast_2._0.models;
+using BlockBlast_2._0.utils;
 using Timer = System.Windows.Forms.Timer;
 
 namespace BlockBlast_2._0.controllers;
@@ -14,15 +15,17 @@ public class GameController
     private Timer _turnTimer = null!;
     private Figure _currentDraggingFigure = null!;
     private bool _isDragging;
+    private bool _soundEnabled;
 
     public event EventHandler OnFigurePlaced = null!;
     public event EventHandler OnTurnEnded = null!;
 
-    public GameController(int playerCount, int gridSize, int timeLimit)
+    public GameController(int playerCount, int gridSize, int timeLimit, bool _soundEnabled)
     {
         Players = [];
         _gridSize = gridSize;
         _timeLimit = timeLimit;
+        _soundEnabled = _soundEnabled;
         _cells = new Panel[gridSize, gridSize];
         InitializeCells();
             
@@ -178,6 +181,7 @@ public class GameController
 
     private void ClearLine(int startX, int startY, int stepX, int stepY)
     {
+        Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\blast.wav"));
         for (var i = 0; i < _gridSize; i++)
         {
             var x = startX + i * stepX;

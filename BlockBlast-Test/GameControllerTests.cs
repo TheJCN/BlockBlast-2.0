@@ -14,7 +14,7 @@ public class GameControllerTests
     [SetUp]
     public void Setup()
     {
-        _controller = new GameController(2, GridSize, TimeLimit);
+        _controller = new GameController(2, GridSize, TimeLimit, false);
     }
 
     [Test]
@@ -117,7 +117,7 @@ public class GameControllerTests
     [Test]
     public void GetEndGameMessage_ReturnsCorrectMessage_ForSinglePlayer()
     {
-        var singlePlayerController = new GameController(1, GridSize, TimeLimit);
+        var singlePlayerController = new GameController(1, GridSize, TimeLimit, false);
         singlePlayerController.CurrentPlayer.AddScore(500);
         
         var message = singlePlayerController.GetEndGameMessage();
