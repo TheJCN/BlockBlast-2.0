@@ -25,3 +25,10 @@ C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\bin\Debug\net8.0-wind
 C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\bin\Debug\net8.0-windows\NAudio.WinMM.dll
 C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast-2.0.csproj.AssemblyReference.cache
 C:\Users\alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBla.F29D7F41.Up2Date
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\bin\Debug\net8.0-windows\en\BlockBlast-2.0.resources.dll
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast_2._0.Resources.resources
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast_2._0.Resources.en.resources
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\BlockBlast-2.0.csproj.GenerateResource.cache
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\en\BlockBlast-2.0.resources.cs
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\obj\Debug\net8.0-windows\en\BlockBlast-2.0.resources.dll
+C:\Users\Alexe\RiderProjects\BlockBlast-2.0\BlockBlast-2.0\bin\Debug\net8.0-windows\Properties\Settings.settings

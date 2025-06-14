@@ -12,6 +12,11 @@
         },
         "runtime": {
           "BlockBlast-2.0.dll": {}
+        },
+        "resources": {
+          "en/BlockBlast-2.0.resources.dll": {
+            "locale": "en"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},

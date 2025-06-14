@@ -1,3 +1,4 @@
+using System.Globalization;
 using BlockBlast_2._0.utils;
 
 namespace BlockBlast_2._0.views;
@@ -27,7 +28,7 @@ public partial class MenuForm : Form
 
     private void InitializeMenu()
     {
-        Text = "BlockBlast - Меню";
+        Text = Resources.Menu_Title;
         ClientSize = new Size(800, 600);
         StartPosition = FormStartPosition.CenterScreen;
         BackColor = Color.FromArgb(50, 50, 50);
@@ -36,7 +37,7 @@ public partial class MenuForm : Form
 
         var titleLabel = new Label
         {
-            Text = "BlockBlast 2.0",
+            Text = Resources.Title,
             Font = new Font("Segoe UI", 36, FontStyle.Bold),
             ForeColor = Color.White,
             AutoSize = false,
@@ -54,7 +55,7 @@ public partial class MenuForm : Form
 
         var timeLabel = new Label
         {
-            Text = "Лимит времени на ход:",
+            Text = Resources.Time_Limit_Per_Turn,
             Font = new Font("Segoe UI", 12),
             ForeColor = Color.White,
             AutoSize = true,
@@ -69,11 +70,11 @@ public partial class MenuForm : Form
             Location = new Point(200, 17)
         };
         _timeComboBox.Items.AddRange([
-            "Без ограничения", 
-            "5 секунд", 
-            "10 секунд", 
-            "15 секунд", 
-            "30 секунд"
+            Resources.None,
+            Resources._5s,
+            Resources._10s,
+            Resources._15s,
+            Resources._30s
         ]);
         _timeComboBox.SelectedIndex = 0;
         _timeComboBox.SelectedIndexChanged += (_, _) => 
@@ -91,10 +92,10 @@ public partial class MenuForm : Form
         settingsPanel.Controls.Add(timeLabel);
         settingsPanel.Controls.Add(_timeComboBox);
 
-        var singlePlayerBtn = CreateMenuButton("Одиночная игра", 0);
-        var twoPlayersBtn = CreateMenuButton("Игра на двоих", 1);
-        var fourPlayersBtn = CreateMenuButton("Игра вчетвером", 2);
-        var leaderboardBtn = CreateMenuButton("Таблица лидеров", 3);
+        var singlePlayerBtn = CreateMenuButton(Resources.Solo, 0);
+        var twoPlayersBtn = CreateMenuButton(Resources.Duo, 1);
+        var fourPlayersBtn = CreateMenuButton(Resources.Quadro, 2);
+        var leaderboardBtn = CreateMenuButton(Resources.Leaderboard, 3);
 
         var buttonsPanel = new TableLayoutPanel
         {
@@ -116,12 +117,12 @@ public partial class MenuForm : Form
 
         var soundToggleBtn = new Button
         {
-            Text = "Звуки: Вкл",
+            Text = Resources.Sounds_On,
             Font = new Font("Segoe UI", 10),
             ForeColor = Color.White,
             BackColor = Color.FromArgb(80, 80, 80),
             FlatStyle = FlatStyle.Flat,
-            Size = new Size(150, 40),
+            Size = new Size(100, 40),
             Location = new Point(400, 15)
         };
 
@@ -133,21 +134,21 @@ public partial class MenuForm : Form
             if (_soundEnabled)
             {
                 Task.Run(() => SoundPlayerUtil.Play(@"Resources\Sounds\blast.wav"));
-                soundToggleBtn.Text = "Звуки: Вкл";
+                soundToggleBtn.Text = Resources.Sounds_On;
             }
             else
-                soundToggleBtn.Text = "Звуки: Выкл";
+                soundToggleBtn.Text = Resources.Sounds_Off;
         };
         
         var musicToggleBtn = new Button
         {
-            Text = "Музыка: Вкл",
+            Text = Resources.Music_On,
             Font = new Font("Segoe UI", 10),
             ForeColor = Color.White,
             BackColor = Color.FromArgb(80, 80, 80),
             FlatStyle = FlatStyle.Flat,
-            Size = new Size(150, 40),
-            Location = new Point(600, 15)
+            Size = new Size(100, 40),
+            Location = new Point(550, 15)
         };
 
         musicToggleBtn.FlatAppearance.BorderSize = 0;
@@ -158,18 +159,45 @@ public partial class MenuForm : Form
             if (_musicEnabled)
             {
                 Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
-                musicToggleBtn.Text = "Музыка: Вкл";
+                musicToggleBtn.Text = Resources.Music_On;
             }
             else
             {
                 _musicPlayerUtil.Stop();
-                musicToggleBtn.Text = "Музыка: Выкл";
+                musicToggleBtn.Text = Resources.Music_Off;
             }
+        };
+
+        var languageToggleBtn = new Button
+        {
+            Text = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ru") ? "English" : "Русский",
+            Font = new Font("Segoe UI", 10),
+            ForeColor = Color.White,
+            BackColor = Color.FromArgb(80, 80, 80),
+            FlatStyle = FlatStyle.Flat,
+            Size = new Size(100, 40),
+            Location = new Point(700, 15)
+        };
+
+        languageToggleBtn.FlatAppearance.BorderSize = 0;
+        languageToggleBtn.Click += (_, _) =>
+        {
+            var currentCulture = Thread.CurrentThread.CurrentUICulture.Name;
+            var newCulture = currentCulture.StartsWith("ru") ? "en" : "ru";
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(newCulture);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(newCulture);
+
+            Properties.Settings.Default.Language = newCulture;
+            Properties.Settings.Default.Save();
+            
+            Application.Restart(); 
         };
 
         settingsPanel.Controls.Add(musicToggleBtn);
         settingsPanel.Controls.Add(soundToggleBtn);
-
+        settingsPanel.Controls.Add(languageToggleBtn);
+        
         Controls.Add(buttonsPanel);
         Controls.Add(settingsPanel);
         Controls.Add(titleLabel);
