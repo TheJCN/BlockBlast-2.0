@@ -48,6 +48,12 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <None Remove="Resources\Musics\music.wav" />
+      <EmbeddedResource Include="Resources\Musics\music.wav" />
+      <None Remove="Resources\Sounds\blast.wav" />
+      <EmbeddedResource Include="Resources\Sounds\blast.wav" />
+      <None Remove="Resources\Sounds\start.wav" />
+      <EmbeddedResource Include="Resources\Sounds\start.wav" />
     </ItemGroup>
 
     <ItemGroup>

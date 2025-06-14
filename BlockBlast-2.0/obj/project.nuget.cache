@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WB8PhiT8b80=",
+  "dgSpecHash": "dR7URZgjT5I=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.10\\microsoft.net.illink.tasks.8.0.10.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\naudio\\2.2.1\\naudio.2.2.1.nupkg.sha512",
@@ -14,7 +15,10 @@
     "C:\\Users\\Alexe\\.nuget\\packages\\naudio.winforms\\2.2.1\\naudio.winforms.2.2.1.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\naudio.winmm\\2.2.1\\naudio.winmm.2.2.1.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\Alexe\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+    "C:\\Users\\Alexe\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.10\\microsoft.netcore.app.runtime.win-x64.8.0.10.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.10.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.10\\microsoft.aspnetcore.app.runtime.win-x64.8.0.10.nupkg.sha512"
   ],
   "logs": []
 }

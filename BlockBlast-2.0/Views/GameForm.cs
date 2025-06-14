@@ -20,10 +20,15 @@ public partial class GameForm : Form
     {
         InitializeComponent();
         _playerCount = playerCount;
-        
+
         if (musicEnabled)
-            Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
-        
+        {
+            var musicStream = ResourceHelper.GetEmbeddedResourceStream("BlockBlast_2._0.Resources.Musics.music.wav");
+            if (musicStream != null)
+                _musicPlayerUtil.Play(musicStream, loop: true);
+        }
+
+   
         _controller = new GameController(playerCount, GridSize, timeLimit, soundEnabled);
         SetupPreStartSetting();
         Resize += (_, _) =>

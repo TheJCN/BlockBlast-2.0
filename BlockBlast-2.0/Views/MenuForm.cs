@@ -19,10 +19,18 @@ public partial class MenuForm : Form
         InitializeMenu();
 
         if (_musicEnabled)
-            Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
-    
+        {
+            var musicStream = ResourceHelper.GetEmbeddedResourceStream("BlockBlast_2._0.Resources.Musics.music.wav");
+            if (musicStream != null)
+                _musicPlayerUtil.Play(musicStream, loop: true);
+        }
+
         if (_soundEnabled)
-            Task.Run(() => SoundPlayerUtil.Play(@"Resources\Sounds\start.wav"));
+        {
+            var soundStream = ResourceHelper.GetEmbeddedResourceStream("BlockBlast_2._0.Resources.Sounds.start.wa");
+            if (soundStream != null)
+                SoundPlayerUtil.Play(soundStream);
+        }
     }
 
 
@@ -133,7 +141,7 @@ public partial class MenuForm : Form
             
             if (_soundEnabled)
             {
-                Task.Run(() => SoundPlayerUtil.Play(@"Resources\Sounds\blast.wav"));
+                SoundPlayerUtil.Play(ResourceHelper.GetEmbeddedResourceStream("BlockBlast_2._0.Resources.Sounds.blast.wav"));
                 soundToggleBtn.Text = Resources.Sounds_On;
             }
             else
@@ -158,7 +166,7 @@ public partial class MenuForm : Form
             
             if (_musicEnabled)
             {
-                Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
+                _musicPlayerUtil.Play(ResourceHelper.GetEmbeddedResourceStream("BlockBlast_2._0.Resources.Musics.music.wav"));
                 musicToggleBtn.Text = Resources.Music_On;
             }
             else

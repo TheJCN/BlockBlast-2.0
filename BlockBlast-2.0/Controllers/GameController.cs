@@ -182,7 +182,7 @@ public class GameController
     private void ClearLine(int startX, int startY, int stepX, int stepY)
     {
         if (_soundEnabled)
-            Task.Run(() => SoundPlayerUtil.Play("Resources\\Sounds\\blast.wav"));
+            //Task.Run(() => SoundPlayerUtil.Play("Resources\\Sounds\\blast.wav"));
         
         for (var i = 0; i < _gridSize; i++)
         {

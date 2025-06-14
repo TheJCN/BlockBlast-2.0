@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "N5jBANGOdSI=",
+  "dgSpecHash": "GjZKYIMUBx8=",
   "success": true,
   "projectFilePath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\BlockBlast-Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alexe\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.10\\microsoft.net.illink.tasks.8.0.10.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.net.test.sdk\\17.8.0\\microsoft.net.test.sdk.17.8.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.8.0\\microsoft.testplatform.objectmodel.17.8.0.nupkg.sha512",
@@ -26,7 +27,10 @@
     "C:\\Users\\Alexe\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",
     "C:\\Users\\Alexe\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\Alexe\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+    "C:\\Users\\Alexe\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.10\\microsoft.netcore.app.runtime.win-x64.8.0.10.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.10.nupkg.sha512",
+    "C:\\Users\\Alexe\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.10\\microsoft.aspnetcore.app.runtime.win-x64.8.0.10.nupkg.sha512"
   ],
   "logs": []
 }

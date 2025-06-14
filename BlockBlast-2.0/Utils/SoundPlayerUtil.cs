@@ -2,26 +2,25 @@ using NAudio.Wave;
 
 namespace BlockBlast_2._0.utils;
 
-public abstract class SoundPlayerUtil
+public static class SoundPlayerUtil
 {
-    public static void Play(string path)
+    public static void Play(Stream stream)
     {
         Task.Run(() =>
         {
             try
             {
-                using var audioFile = new AudioFileReader(path);
+                using var reader = new WaveFileReader(stream); // WAV only
                 using var outputDevice = new WaveOutEvent();
-
-                outputDevice.Init(audioFile);
+                outputDevice.Init(reader);
                 outputDevice.Play();
-                
+
                 while (outputDevice.PlaybackState == PlaybackState.Playing)
                     Thread.Sleep(50);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(Resources.Sound_Player_Error, ex.Message);
+                Console.WriteLine("Sound player error: " + ex.Message);
             }
         });
     }

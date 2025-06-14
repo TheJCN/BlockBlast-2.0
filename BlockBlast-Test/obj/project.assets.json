@@ -21,6 +21,12 @@
           "build/netstandard2.0/Microsoft.CodeCoverage.targets": {}
         }
       },
+      "Microsoft.NET.ILLink.Tasks/8.0.10": {
+        "type": "package",
+        "build": {
+          "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
       "Microsoft.NET.Test.Sdk/17.8.0": {
         "type": "package",
         "dependencies": {
@@ -586,6 +592,572 @@
           "Microsoft.WindowsDesktop.App.WindowsForms"
         ]
       }
+    },
+    "net8.0-windows7.0/win-x64": {
+      "coverlet.collector/6.0.0": {
+        "type": "package",
+        "build": {
+          "build/netstandard1.0/coverlet.collector.targets": {}
+        }
+      },
+      "Microsoft.CodeCoverage/17.8.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
+        },
+        "build": {
+          "build/netstandard2.0/Microsoft.CodeCoverage.props": {},
+          "build/netstandard2.0/Microsoft.CodeCoverage.targets": {}
+        }
+      },
+      "Microsoft.NET.ILLink.Tasks/8.0.10": {
+        "type": "package",
+        "build": {
+          "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Microsoft.NET.Test.Sdk/17.8.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CodeCoverage": "17.8.0",
+          "Microsoft.TestPlatform.TestHost": "17.8.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/_._": {}
+        },
+        "build": {
+          "build/netcoreapp3.1/Microsoft.NET.Test.Sdk.props": {},
+          "build/netcoreapp3.1/Microsoft.NET.Test.Sdk.targets": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Microsoft.NET.Test.Sdk.props": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/3.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/_._": {}
+        }
+      },
+      "Microsoft.TestPlatform.ObjectModel/17.8.0": {
+        "type": "package",
+        "dependencies": {
+          "NuGet.Frameworks": "6.5.0",
+          "System.Reflection.Metadata": "1.6.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {}
+        },
+        "resource": {
+          "lib/netcoreapp3.1/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/de/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/es/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netcoreapp3.1/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/it/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netcoreapp3.1/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netcoreapp3.1/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netcoreapp3.1/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netcoreapp3.1/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll": {
+            "locale": "zh-Hant"
+          },
+          "lib/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "Microsoft.TestPlatform.TestHost/17.8.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.TestPlatform.ObjectModel": "17.8.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CommunicationUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CrossPlatEngine.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.Utilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.Common.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {},
+          "lib/netcoreapp3.1/testhost.dll": {
+            "related": ".deps.json"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CommunicationUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.CrossPlatEngine.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll": {},
+          "lib/netcoreapp3.1/Microsoft.TestPlatform.Utilities.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.Common.dll": {},
+          "lib/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {},
+          "lib/netcoreapp3.1/testhost.dll": {
+            "related": ".deps.json"
+          }
+        },
+        "resource": {
+          "lib/netcoreapp3.1/cs/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/cs/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/de/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/de/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/es/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netcoreapp3.1/es/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netcoreapp3.1/fr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/fr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/it/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netcoreapp3.1/it/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netcoreapp3.1/ja/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netcoreapp3.1/ja/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netcoreapp3.1/ko/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netcoreapp3.1/ko/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netcoreapp3.1/pl/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netcoreapp3.1/pl/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/ru/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netcoreapp3.1/ru/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netcoreapp3.1/tr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netcoreapp3.1/tr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll": {
+            "locale": "zh-Hant"
+          },
+          "lib/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll": {
+            "locale": "zh-Hant"
+          },
+          "lib/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        },
+        "build": {
+          "build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props": {}
+        }
+      },
+      "Microsoft.Win32.Registry/4.7.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Security.AccessControl": "4.7.0",
+          "System.Security.Principal.Windows": "4.7.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Asio": "2.2.1",
+          "NAudio.Core": "2.2.1",
+          "NAudio.Midi": "2.2.1",
+          "NAudio.Wasapi": "2.2.1",
+          "NAudio.WinForms": "2.2.1",
+          "NAudio.WinMM": "2.2.1"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Asio/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Registry": "4.7.0",
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Core/2.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Midi/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Wasapi/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.WinForms/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.WinMM": "2.2.1"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/NAudio.WinForms.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/NAudio.WinForms.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "NAudio.WinMM/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Registry": "4.7.0",
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.WinMM.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.WinMM.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NETStandard.Library/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/_._": {}
+        },
+        "build": {
+          "build/netstandard2.0/NETStandard.Library.targets": {}
+        }
+      },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NuGet.Frameworks/6.5.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NuGet.Frameworks.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NuGet.Frameworks.dll": {}
+        }
+      },
+      "NUnit/3.14.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/nunit.framework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/nunit.framework.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
+      "NUnit.Analyzers/3.9.0": {
+        "type": "package"
+      },
+      "NUnit3TestAdapter/4.5.0": {
+        "type": "package",
+        "build": {
+          "build/netcoreapp3.1/NUnit3TestAdapter.props": {}
+        }
+      },
+      "System.Reflection.Metadata/1.6.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/System.Reflection.Metadata.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Reflection.Metadata.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Security.AccessControl/4.7.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.1.0",
+          "System.Security.Principal.Windows": "4.7.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Security.Principal.Windows/4.7.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "BlockBlast-2.0/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "NAudio": "2.2.1"
+        },
+        "compile": {
+          "bin/placeholder/BlockBlast-2.0.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlockBlast-2.0.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      }
     }
   },
   "libraries": {
@@ -706,6 +1278,57 @@
         "lib/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
         "microsoft.codecoverage.17.8.0.nupkg.sha512",
         "microsoft.codecoverage.nuspec"
+      ]
+    },
+    "Microsoft.NET.ILLink.Tasks/8.0.10": {
+      "sha512": "xT8jYjlroY7SLbGtoV9vUTVW/TPgodL4Egc31a444Xe0TMytLZ3UlKQ0kxMZsy/CrWsFB6wtKnSG1SsXcWreew==",
+      "type": "package",
+      "path": "microsoft.net.illink.tasks/8.0.10",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "Sdk/Sdk.props",
+        "THIRD-PARTY-NOTICES.TXT",
+        "analyzers/dotnet/cs/ILLink.CodeFixProvider.dll",
+        "analyzers/dotnet/cs/ILLink.RoslynAnalyzer.dll",
+        "build/Microsoft.NET.ILLink.Analyzers.props",
+        "build/Microsoft.NET.ILLink.Tasks.props",
+        "build/Microsoft.NET.ILLink.targets",
+        "microsoft.net.illink.tasks.8.0.10.nupkg.sha512",
+        "microsoft.net.illink.tasks.nuspec",
+        "tools/net472/ILLink.Tasks.dll",
+        "tools/net472/ILLink.Tasks.dll.config",
+        "tools/net472/Mono.Cecil.Mdb.dll",
+        "tools/net472/Mono.Cecil.Pdb.dll",
+        "tools/net472/Mono.Cecil.Rocks.dll",
+        "tools/net472/Mono.Cecil.dll",
+        "tools/net472/Sdk/Sdk.props",
+        "tools/net472/System.Buffers.dll",
+        "tools/net472/System.Collections.Immutable.dll",
+        "tools/net472/System.Memory.dll",
+        "tools/net472/System.Numerics.Vectors.dll",
+        "tools/net472/System.Reflection.Metadata.dll",
+        "tools/net472/System.Runtime.CompilerServices.Unsafe.dll",
+        "tools/net472/build/Microsoft.NET.ILLink.Analyzers.props",
+        "tools/net472/build/Microsoft.NET.ILLink.Tasks.props",
+        "tools/net472/build/Microsoft.NET.ILLink.targets",
+        "tools/net8.0/ILLink.Tasks.deps.json",
+        "tools/net8.0/ILLink.Tasks.dll",
+        "tools/net8.0/Mono.Cecil.Mdb.dll",
+        "tools/net8.0/Mono.Cecil.Pdb.dll",
+        "tools/net8.0/Mono.Cecil.Rocks.dll",
+        "tools/net8.0/Mono.Cecil.dll",
+        "tools/net8.0/Sdk/Sdk.props",
+        "tools/net8.0/build/Microsoft.NET.ILLink.Analyzers.props",
+        "tools/net8.0/build/Microsoft.NET.ILLink.Tasks.props",
+        "tools/net8.0/build/Microsoft.NET.ILLink.targets",
+        "tools/net8.0/illink.deps.json",
+        "tools/net8.0/illink.dll",
+        "tools/net8.0/illink.runtimeconfig.json",
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.NET.Test.Sdk/17.8.0": {
@@ -1447,6 +2070,7 @@
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
       "BlockBlast-2.0 >= 1.0.0",
+      "Microsoft.NET.ILLink.Tasks >= 8.0.10",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "NUnit >= 3.14.0",
       "NUnit.Analyzers >= 3.9.0",
@@ -1500,6 +2124,12 @@
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
         "dependencies": {
+          "Microsoft.NET.ILLink.Tasks": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[8.0.10, )",
+            "autoReferenced": true
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.8.0, )"
@@ -1532,12 +2162,31 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[8.0.10, 8.0.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
+            "version": "[8.0.10, 8.0.10]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+            "version": "[8.0.10, 8.0.10]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
       }
     }
   }
