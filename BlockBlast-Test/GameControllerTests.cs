@@ -1,5 +1,5 @@
 using System.Drawing;
-using BlockBlast_2._0.controllers;
+using BlockBlast_2._0.Controllers;
 using static NUnit.Framework.Assert;
 
 namespace BlockBlast_Test;
@@ -146,7 +146,7 @@ public class GameControllerTests
         var invalidPosition = new Point(-10000, -10000);
         
         var result = _controller.TryPlaceFigure(invalidPosition);
-        Console.WriteLine($"Result: {result}");
+        Console.WriteLine($@"Result: {result}");
         That(result, Is.False, "Метод должен возвращать false для позиции за пределами сетки");
     }
 }

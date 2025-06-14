@@ -1,8 +1,8 @@
-using BlockBlast_2._0.models;
+using BlockBlast_2._0.Models;
 using BlockBlast_2._0.utils;
 using Timer = System.Windows.Forms.Timer;
 
-namespace BlockBlast_2._0.controllers;
+namespace BlockBlast_2._0.Controllers;
 
 public class GameController
 {
@@ -20,12 +20,12 @@ public class GameController
     public event EventHandler OnFigurePlaced = null!;
     public event EventHandler OnTurnEnded = null!;
 
-    public GameController(int playerCount, int gridSize, int timeLimit, bool _soundEnabled)
+    public GameController(int playerCount, int gridSize, int timeLimit, bool soundEnabled)
     {
         Players = [];
         _gridSize = gridSize;
         _timeLimit = timeLimit;
-        _soundEnabled = _soundEnabled;
+        _soundEnabled = soundEnabled;
         _cells = new Panel[gridSize, gridSize];
         InitializeCells();
             
@@ -181,7 +181,9 @@ public class GameController
 
     private void ClearLine(int startX, int startY, int stepX, int stepY)
     {
-        Task.Run(() => SoundPlayerUtil.Play("Resources\\Sounds\\blast.wav"));
+        if (_soundEnabled)
+            Task.Run(() => SoundPlayerUtil.Play("Resources\\Sounds\\blast.wav"));
+        
         for (var i = 0; i < _gridSize; i++)
         {
             var x = startX + i * stepX;
@@ -228,7 +230,11 @@ public class GameController
             _turnTimer.Stop();
     }
 
-    public string GetTimeText() => _timeLimit > 0 ? $"Осталось времени: {_timeLeft} сек." : "Время на ход не ограничено";
+    public string GetTimeText() =>
+        _timeLimit > 0
+            ? string.Format(Resources.Time_Left, _timeLeft)
+            : Resources.Unlimited_Time;
+
 
     public Color GetTimeLabelColor() => _timeLeft <= 5 ? Color.Red : Color.White;
 
@@ -324,11 +330,14 @@ public class GameController
         return $"{winnerText}\n{scores}";
     }
 
-    public string GetCurrentPlayerText() => $"Сейчас ходит: Игрок {Players.IndexOf(CurrentPlayer) + 1}";
+    public string GetCurrentPlayerText() =>
+        string.Format(Resources.Current_Player, Players.IndexOf(CurrentPlayer) + 1);
+    
+    public Color GetCurrentPlayerPanelColor() => 
+        Color.FromArgb(80, Color.FromArgb(CurrentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb()));
 
-    public Color GetCurrentPlayerPanelColor() => Color.FromArgb(80, Color.FromArgb(CurrentPlayer.Figures.FirstOrDefault()?.Pixels.FirstOrDefault()?.Color ?? Color.Gray.ToArgb()));
-
-    public string GetPlayerScoreText(int playerIndex) => $"Очки: {Players[playerIndex].Score}";
+    public string GetPlayerScoreText(int playerIndex) => 
+        string.Format(Resources.Score,Players[playerIndex].Score);
     
     public int GetTimeLimit() => _timeLimit;
     public int GetTimeLeft() => _timeLeft;

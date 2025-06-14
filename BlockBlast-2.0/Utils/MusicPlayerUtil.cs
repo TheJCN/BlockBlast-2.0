@@ -20,7 +20,7 @@ public class MusicPlayerUtil
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Ошибка при воспроизведении музыки: {ex.Message}");
+            Console.WriteLine(Resources.Music_Player_Error, ex.Message);
         }
     }
 

@@ -1,6 +1,6 @@
 using BlockBlast_2._0.utils;
 
-namespace BlockBlast_2._0.models;
+namespace BlockBlast_2._0.Models;
 
 public class Player
 {

@@ -1,4 +1,4 @@
-using BlockBlast_2._0.models;
+using BlockBlast_2._0.Models;
 
 namespace BlockBlast_Test;
 
@@ -8,7 +8,7 @@ public class PlayerTests
     [Test]
     public void Player_Constructor_SetsPropertiesCorrectly()
     {
-        var color = 0xFF0000;
+        const int color = 0xFF0000;
             
         var player = new Player(color);
         Assert.Multiple(() =>

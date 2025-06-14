@@ -96,11 +96,38 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сейчас ходит: Игрок {0}.
+        /// </summary>
+        internal static string Current_Player {
+            get {
+                return ResourceManager.GetString("Current-Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Игра на 2х игроков.
         /// </summary>
         internal static string Duo {
             get {
                 return ResourceManager.GetString("Duo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BlockBlast 2.0 - {0} игрока(ов).
+        /// </summary>
+        internal static string Game_SubTitle {
+            get {
+                return ResourceManager.GetString("Game-SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Конец игры.
+        /// </summary>
+        internal static string GameEnd {
+            get {
+                return ResourceManager.GetString("GameEnd", resourceCulture);
             }
         }
         
@@ -123,6 +150,24 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Время на ход истекло! Ход переходит к следующему игроку..
+        /// </summary>
+        internal static string Move_Time_Expired {
+            get {
+                return ResourceManager.GetString("Move-Time-Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Игрок не может сделать ход. Ход переходит к следующему игроку..
+        /// </summary>
+        internal static string Move_Unavailable {
+            get {
+                return ResourceManager.GetString("Move-Unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Музыка: Выкл.
         /// </summary>
         internal static string Music_Off {
@@ -141,11 +186,29 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка при воспроизведении музыки: {0}.
+        /// </summary>
+        internal static string Music_Player_Error {
+            get {
+                return ResourceManager.GetString("Music-Player-Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Без ограничения.
         /// </summary>
         internal static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Игрок {0}.
+        /// </summary>
+        internal static string Player {
+            get {
+                return ResourceManager.GetString("Player", resourceCulture);
             }
         }
         
@@ -159,11 +222,29 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Очки: {0}.
+        /// </summary>
+        internal static string Score {
+            get {
+                return ResourceManager.GetString("Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Одиночная игра.
         /// </summary>
         internal static string Solo {
             get {
                 return ResourceManager.GetString("Solo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при воспроизведении звука: {0}.
+        /// </summary>
+        internal static string Sound_Player_Error {
+            get {
+                return ResourceManager.GetString("Sound-Player_Error", resourceCulture);
             }
         }
         
@@ -186,6 +267,15 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Времени осталось: {0} сек..
+        /// </summary>
+        internal static string Time_Left {
+            get {
+                return ResourceManager.GetString("Time-Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Лимит времени на ход:.
         /// </summary>
         internal static string Time_Limit_Per_Turn {
@@ -200,6 +290,15 @@ namespace BlockBlast_2._0 {
         internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Время на ход не ограничено.
+        /// </summary>
+        internal static string Unlimited_Time {
+            get {
+                return ResourceManager.GetString("Unlimited-Time", resourceCulture);
             }
         }
     }

@@ -66,4 +66,37 @@
     <data name="Leaderboard" xml:space="preserve">
         <value>Таблица лидеров</value>
     </data>
+    <data name="Move-Time-Expired" xml:space="preserve">
+        <value>Время на ход истекло! Ход переходит к следующему игроку.</value>
+    </data>
+    <data name="Game-SubTitle" xml:space="preserve">
+        <value>BlockBlast 2.0 - {0} игрока(ов)</value>
+    </data>
+    <data name="Player" xml:space="preserve">
+        <value>Игрок {0}</value>
+    </data>
+    <data name="GameEnd" xml:space="preserve">
+        <value>Конец игры</value>
+    </data>
+    <data name="Move-Unavailable" xml:space="preserve">
+        <value>Игрок не может сделать ход. Ход переходит к следующему игроку.</value>
+    </data>
+    <data name="Current-Player" xml:space="preserve">
+        <value>Сейчас ходит: Игрок {0}</value>
+    </data>
+    <data name="Score" xml:space="preserve">
+        <value>Очки: {0}</value>
+    </data>
+    <data name="Time-Left" xml:space="preserve">
+        <value>Времени осталось: {0} сек.</value>
+    </data>
+    <data name="Unlimited-Time" xml:space="preserve">
+        <value>Время на ход не ограничено</value>
+    </data>
+    <data name="Music-Player-Error" xml:space="preserve">
+        <value>Ошибка при воспроизведении музыки: {0}</value>
+    </data>
+    <data name="Sound-Player_Error" xml:space="preserve">
+        <value>Ошибка при воспроизведении звука: {0}</value>
+    </data>
 </root>

@@ -1,5 +1,5 @@
 using BlockBlast_2._0.controllers;
-using BlockBlast_2._0.models;
+using BlockBlast_2._0.Models;
 
 namespace BlockBlast_2._0.views;
 

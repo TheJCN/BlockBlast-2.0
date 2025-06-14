@@ -1,5 +1,6 @@
 using BlockBlast_2._0.controllers;
-using BlockBlast_2._0.models;
+using BlockBlast_2._0.Controllers;
+using BlockBlast_2._0.Models;
 using BlockBlast_2._0.utils;
 
 namespace BlockBlast_2._0.views;
@@ -51,13 +52,13 @@ public partial class GameForm : Form
         _timeLabel.ForeColor = _controller.GetTimeLabelColor();
 
         if (!_controller.IsTimeUp()) return;
-        MessageBox.Show("Время на ход истекло! Ход переходит к следующему игроку.");
+        MessageBox.Show(Resources.Move_Time_Expired);
         EndTurn();
     }
 
     private void SetupPreStartSetting()
     {
-        Text = $"BlockBlast 2.0 - {_playerCount} игрока(ов)";
+        Text = string.Format(Resources.Game_SubTitle, _playerCount);
         ClientSize = new Size(1280, 720);
         StartPosition = FormStartPosition.CenterScreen;
         BackColor = Color.DimGray;
@@ -67,7 +68,7 @@ public partial class GameForm : Form
     {
         var titleLabel = new Label
         {
-            Text = $"BlockBlast 2.0 - {_playerCount} игрока(ов)",
+            Text = string.Format(Resources.Game_SubTitle, _playerCount),
             Font = new Font("Segoe UI", 24, FontStyle.Bold),
             ForeColor = Color.White,
             AutoSize = false,
@@ -161,7 +162,7 @@ public partial class GameForm : Form
 
             var label = new Label
             {
-                Text = $"Игрок {i + 1}",
+                Text = string.Format(Resources.Player, i + 1),
                 Dock = DockStyle.Top,
                 ForeColor = Color.White,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -410,13 +411,13 @@ public partial class GameForm : Form
         var leaderboardController = new LeaderboardController();
         foreach (var player in _controller.Players)
             leaderboardController.AddEntry(
-                $"Игрок {_controller.Players.IndexOf(player) + 1}", 
+                string.Format(Resources.Player, _controller.Players.IndexOf(player) + 1), 
                 player.Score, 
                 _playerCount, 
                 _controller.IsTimeUp() ? 0 : _controller.GetTimeLimit());
     
         MessageBox.Show(_controller.GetEndGameMessage(),
-            "Конец игры",
+            Resources.GameEnd,
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
             
@@ -433,7 +434,7 @@ public partial class GameForm : Form
         UpdateTurnLabel();
 
         if (_controller.CanPlayerPlaceAnyFigure(_controller.CurrentPlayer)) return;
-        MessageBox.Show("Игрок не может сделать ход. Ход переходит к следующему игроку.");
+        MessageBox.Show(Resources.Move_Unavailable);
         _controller.NextPlayer();
         UpdateTurnLabel();
     }

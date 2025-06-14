@@ -1,5 +1,5 @@
 using System.Text.Json;
-using BlockBlast_2._0.models;
+using BlockBlast_2._0.Models;
 
 namespace BlockBlast_2._0.controllers;
 

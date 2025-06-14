@@ -2,7 +2,7 @@ using NAudio.Wave;
 
 namespace BlockBlast_2._0.utils;
 
-public class SoundPlayerUtil
+public abstract class SoundPlayerUtil
 {
     public static void Play(string path)
     {
@@ -21,7 +21,7 @@ public class SoundPlayerUtil
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при воспроизведении звука: {ex.Message}");
+                Console.WriteLine(Resources.Sound_Player_Error, ex.Message);
             }
         });
     }
