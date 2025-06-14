@@ -96,6 +96,33 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата.
+        /// </summary>
+        internal static string Clear_Date {
+            get {
+                return ResourceManager.GetString("Clear-Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Игрок.
+        /// </summary>
+        internal static string Clear_Player {
+            get {
+                return ResourceManager.GetString("Clear-Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Очки.
+        /// </summary>
+        internal static string Clear_Score {
+            get {
+                return ResourceManager.GetString("Clear-Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сейчас ходит: Игрок {0}.
         /// </summary>
         internal static string Current_Player {
@@ -110,6 +137,15 @@ namespace BlockBlast_2._0 {
         internal static string Duo {
             get {
                 return ResourceManager.GetString("Duo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Четыре игрока.
+        /// </summary>
+        internal static string Four_Players {
+            get {
+                return ResourceManager.GetString("Four-Players", resourceCulture);
             }
         }
         
@@ -137,6 +173,15 @@ namespace BlockBlast_2._0 {
         internal static string Leaderboard {
             get {
                 return ResourceManager.GetString("Leaderboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} сек..
+        /// </summary>
+        internal static string Limit {
+            get {
+                return ResourceManager.GetString("Limit", resourceCulture);
             }
         }
         
@@ -195,11 +240,38 @@ namespace BlockBlast_2._0 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пока нет записей.
+        /// </summary>
+        internal static string No_Entries {
+            get {
+                return ResourceManager.GetString("No-Entries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет лимита.
+        /// </summary>
+        internal static string No_Limit {
+            get {
+                return ResourceManager.GetString("No-Limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Без ограничения.
         /// </summary>
         internal static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Одни игрок.
+        /// </summary>
+        internal static string One_Player {
+            get {
+                return ResourceManager.GetString("One-Player", resourceCulture);
             }
         }
         
@@ -290,6 +362,24 @@ namespace BlockBlast_2._0 {
         internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Топ 10 результатов:.
+        /// </summary>
+        internal static string Top_10_Results {
+            get {
+                return ResourceManager.GetString("Top-10-Results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Два игрока.
+        /// </summary>
+        internal static string Two_Players {
+            get {
+                return ResourceManager.GetString("Two-Players", resourceCulture);
             }
         }
         

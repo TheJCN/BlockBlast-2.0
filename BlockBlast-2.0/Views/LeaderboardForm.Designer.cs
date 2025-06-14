@@ -53,7 +53,7 @@ namespace BlockBlast_2._0.views
             this.MinimizeBox = false;
             this.Name = "LeaderboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Таблица лидеров";
+            this.Text = Resources.Leaderboard;
             this.ResumeLayout(false);
         }
 

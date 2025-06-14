@@ -15,7 +15,7 @@ public class GameController
     private Timer _turnTimer = null!;
     private Figure _currentDraggingFigure = null!;
     private bool _isDragging;
-    private bool _soundEnabled;
+    private readonly bool _soundEnabled;
 
     public event EventHandler OnFigurePlaced = null!;
     public event EventHandler OnTurnEnded = null!;

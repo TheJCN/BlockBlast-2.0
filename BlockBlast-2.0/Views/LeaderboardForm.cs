@@ -60,14 +60,13 @@ public partial class LeaderboardForm : Form
     {
         return playerCount switch
         {
-            1 => "1 игрок",
-            2 => "2 игрока",
-            4 => "4 игрока (команды)",
-            _ => $"{playerCount} игроков"
+            1 => Resources.One_Player,
+            2 => Resources.Two_Players,
+            4 => Resources.Four_Players,
         };
     }
 
-    private static string GetTimeLimitText(int timeLimit) => timeLimit == 0 ? "Без лимита" : $"{timeLimit} сек";
+    private static string GetTimeLimitText(int timeLimit) => timeLimit == 0 ? Resources.No_Limit : string.Format(Resources.Limit, timeLimit);
 
     private static Panel CreateLeaderboardPanel(List<LeaderboardEntry> entries)
     {
@@ -79,7 +78,7 @@ public partial class LeaderboardForm : Form
 
         var headerLabel = new Label
         {
-            Text = "Топ 10 результатов:",
+            Text = Resources.Top_10_Results,
             Font = new Font("Segoe UI", 14, FontStyle.Bold),
             ForeColor = Color.White,
             Dock = DockStyle.Top,
@@ -89,11 +88,11 @@ public partial class LeaderboardForm : Form
 
         panel.Controls.Add(headerLabel);
 
-        if (!entries.Any())
+        if (entries.Count == 0)
         {
             var emptyLabel = new Label
             {
-                Text = "Пока нет записей",
+                Text = Resources.No_Entries,
                 Font = new Font("Segoe UI", 12),
                 ForeColor = Color.LightGray,
                 Dock = DockStyle.Fill,
@@ -119,9 +118,9 @@ public partial class LeaderboardForm : Form
         tablePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
 
         AddHeaderCell(tablePanel, "#");
-        AddHeaderCell(tablePanel, "Имя");
-        AddHeaderCell(tablePanel, "Очки");
-        AddHeaderCell(tablePanel, "Дата");
+        AddHeaderCell(tablePanel, Resources.Clear_Player);
+        AddHeaderCell(tablePanel, Resources.Clear_Score);
+        AddHeaderCell(tablePanel, Resources.Clear_Date);
 
         for (var i = 0; i < entries.Count; i++)
         {

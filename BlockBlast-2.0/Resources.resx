@@ -99,4 +99,34 @@
     <data name="Sound-Player_Error" xml:space="preserve">
         <value>Ошибка при воспроизведении звука: {0}</value>
     </data>
+    <data name="No-Entries" xml:space="preserve">
+        <value>Пока нет записей</value>
+    </data>
+    <data name="Top-10-Results" xml:space="preserve">
+        <value>Топ 10 результатов:</value>
+    </data>
+    <data name="One-Player" xml:space="preserve">
+        <value>Одни игрок</value>
+    </data>
+    <data name="Two-Players" xml:space="preserve">
+        <value>Два игрока</value>
+    </data>
+    <data name="Four-Players" xml:space="preserve">
+        <value>Четыре игрока</value>
+    </data>
+    <data name="No-Limit" xml:space="preserve">
+        <value>Нет лимита</value>
+    </data>
+    <data name="Limit" xml:space="preserve">
+        <value>{0} сек.</value>
+    </data>
+    <data name="Clear-Player" xml:space="preserve">
+        <value>Игрок</value>
+    </data>
+    <data name="Clear-Score" xml:space="preserve">
+        <value>Очки</value>
+    </data>
+    <data name="Clear-Date" xml:space="preserve">
+        <value>Дата</value>
+    </data>
 </root>

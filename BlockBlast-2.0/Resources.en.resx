@@ -84,4 +84,34 @@
     <data name="Unlimited-Time" xml:space="preserve">
         <value>	Turn time is unlimited</value>
     </data>
+    <data name="Top-10-Results" xml:space="preserve">
+        <value>Top 10 Results:</value>
+    </data>
+    <data name="One-Player" xml:space="preserve">
+        <value>One player</value>
+    </data>
+    <data name="Two-Players" xml:space="preserve">
+        <value>Two players</value>
+    </data>
+    <data name="Four-Players" xml:space="preserve">
+        <value>Four players</value>
+    </data>
+    <data name="No-Limit" xml:space="preserve">
+        <value>No limits</value>
+    </data>
+    <data name="No-Entries" xml:space="preserve">
+        <value>There is not results</value>
+    </data>
+    <data name="Limit" xml:space="preserve">
+        <value>{0} sec.</value>
+    </data>
+    <data name="Clear-Player" xml:space="preserve">
+        <value>Player</value>
+    </data>
+    <data name="Clear-Score" xml:space="preserve">
+        <value>Score</value>
+    </data>
+    <data name="Clear-Date" xml:space="preserve">
+        <value>Date</value>
+    </data>
 </root>
