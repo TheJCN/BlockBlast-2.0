@@ -181,7 +181,7 @@ public class GameController
 
     private void ClearLine(int startX, int startY, int stepX, int stepY)
     {
-        Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\blast.wav"));
+        Task.Run(() => SoundPlayerUtil.Play("Resources\\Sounds\\blast.wav"));
         for (var i = 0; i < _gridSize; i++)
         {
             var x = startX + i * stepX;

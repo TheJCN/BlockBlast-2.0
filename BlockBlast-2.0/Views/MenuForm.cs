@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using BlockBlast_2._0.utils;
 
 namespace BlockBlast_2._0.views;
@@ -8,7 +7,7 @@ public partial class MenuForm : Form
     private ComboBox? _timeComboBox;
     private int _selectedTimeLimit;
     
-    private MusicPlayerUtil musicPlayerUtil = new();
+    private readonly MusicPlayerUtil _musicPlayerUtil = new();
     private bool _musicEnabled = true;
     
     private bool _soundEnabled = true;
@@ -19,10 +18,10 @@ public partial class MenuForm : Form
         InitializeMenu();
 
         if (_musicEnabled)
-            Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+            Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
     
         if (_soundEnabled)
-            Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\start.wav"));
+            Task.Run(() => SoundPlayerUtil.Play(@"Resources\Sounds\start.wav"));
     }
 
 
@@ -127,13 +126,13 @@ public partial class MenuForm : Form
         };
 
         soundToggleBtn.FlatAppearance.BorderSize = 0;
-        soundToggleBtn.Click += (sender, args) =>
+        soundToggleBtn.Click += (_, _) =>
         {
             _soundEnabled = !_soundEnabled;
             
             if (_soundEnabled)
             {
-                Task.Run(() => SoundPlayerUtil.Play("resources\\sounds\\blast.wav"));
+                Task.Run(() => SoundPlayerUtil.Play(@"Resources\Sounds\blast.wav"));
                 soundToggleBtn.Text = "Звуки: Вкл";
             }
             else
@@ -152,18 +151,18 @@ public partial class MenuForm : Form
         };
 
         musicToggleBtn.FlatAppearance.BorderSize = 0;
-        musicToggleBtn.Click += (sender, args) =>
+        musicToggleBtn.Click += (_, _) =>
         {
             _musicEnabled = !_musicEnabled;
             
             if (_musicEnabled)
             {
-                Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+                Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
                 musicToggleBtn.Text = "Музыка: Вкл";
             }
             else
             {
-                musicPlayerUtil.Stop();
+                _musicPlayerUtil.Stop();
                 musicToggleBtn.Text = "Музыка: Выкл";
             }
         };
@@ -212,7 +211,7 @@ public partial class MenuForm : Form
     private void MenuButton_Click(object sender, EventArgs e)
     {
         if (sender is not Button button) return;
-        musicPlayerUtil.Stop();
+        _musicPlayerUtil.Stop();
         switch ((int)button.Tag!)
         {
             case 0:

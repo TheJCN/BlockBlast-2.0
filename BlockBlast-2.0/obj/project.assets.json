@@ -487,19 +487,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alexe\\.nuget\\packages\\": {}
+    "C:\\Users\\Alexe\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj",
+      "projectUniqueName": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj",
       "projectName": "BlockBlast-2.0",
-      "projectPath": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj",
-      "packagesPath": "C:\\Users\\alexe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\obj\\",
+      "projectPath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj",
+      "packagesPath": "C:\\Users\\Alexe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\alexe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Alexe\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows"
@@ -552,7 +552,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\alexe\\.dotnet\\sdk\\8.0.410/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -2,7 +2,7 @@ using BlockBlast_2._0.views;
 
 namespace BlockBlast_2._0;
 
-static class Program
+internal static class Program
 {
     /// <summary>
     ///  The main entry point for the application.

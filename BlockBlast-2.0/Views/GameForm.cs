@@ -13,22 +13,17 @@ public partial class GameForm : Form
     private readonly int _playerCount;
     private Label _timeLabel = null!;
     
-    private MusicPlayerUtil musicPlayerUtil = new();
+    private readonly MusicPlayerUtil _musicPlayerUtil = new();
 
-    private readonly bool _musicEnabled;
-    private readonly bool _soundEnabled;
-
-    public GameForm(int playerCount, int timeLimit, bool _musicEnabled, bool _soundEnabled)
+    public GameForm(int playerCount, int timeLimit, bool musicEnabled, bool soundEnabled)
     {
         InitializeComponent();
         _playerCount = playerCount;
-        _musicEnabled = _musicEnabled;
-        _soundEnabled = _soundEnabled;
         
-        if (_musicEnabled)
-            Task.Run(() => musicPlayerUtil.Play("resources\\musics\\music.wav", loop: true));
+        if (musicEnabled)
+            Task.Run(() => _musicPlayerUtil.Play(@"Resources\Musics\music.wav", loop: true));
         
-        _controller = new GameController(playerCount, GridSize, timeLimit, _soundEnabled);
+        _controller = new GameController(playerCount, GridSize, timeLimit, soundEnabled);
         SetupPreStartSetting();
         Resize += (_, _) =>
         {

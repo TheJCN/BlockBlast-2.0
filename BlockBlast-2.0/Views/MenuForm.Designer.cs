@@ -1,16 +1,18 @@
-﻿namespace BlockBlast_2._0.views;
+using System.ComponentModel;
 
-partial class GameForm
+namespace BlockBlast_2._0.views;
+
+partial class MenuForm
 {
     /// <summary>
-    ///  Required designer variable.
+    /// Required designer variable.
     /// </summary>
-    private System.ComponentModel.IContainer components = null;
+    private IContainer components = null;
 
     /// <summary>
-    ///  Clean up any resources being used.
+    /// Clean up any Resources being used.
     /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    /// <param name="disposing">true if managed Resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -24,15 +26,15 @@ partial class GameForm
     #region Windows Form Designer generated code
 
     /// <summary>
-    ///  Required method for Designer support - do not modify
-    ///  the contents of this method with the code editor.
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "GameForm";
+        this.Text = "MenuForm";
     }
 
     #endregion

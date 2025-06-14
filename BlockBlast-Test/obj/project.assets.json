@@ -1455,19 +1455,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alexe\\.nuget\\packages\\": {}
+    "C:\\Users\\Alexe\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\BlockBlast-Test.csproj",
+      "projectUniqueName": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\BlockBlast-Test.csproj",
       "projectName": "BlockBlast-Test",
-      "projectPath": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\BlockBlast-Test.csproj",
-      "packagesPath": "C:\\Users\\alexe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\obj\\",
+      "projectPath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\BlockBlast-Test.csproj",
+      "packagesPath": "C:\\Users\\Alexe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\alexe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Alexe\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows"
@@ -1479,8 +1479,8 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj": {
-              "projectPath": "C:\\Users\\alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj"
+            "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj": {
+              "projectPath": "C:\\Users\\Alexe\\RiderProjects\\BlockBlast-2.0\\BlockBlast-2.0\\BlockBlast-2.0.csproj"
             }
           }
         }
@@ -1537,7 +1537,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\alexe\\.dotnet\\sdk\\8.0.410/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
